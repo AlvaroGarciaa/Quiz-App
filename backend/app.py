@@ -1,10 +1,10 @@
+
 from flask import Flask
+from routes.questions import questions_blueprint
 
 app = Flask(__name__)
 
-@app.route('/')
-def hello():
-    return '¡Hola, mundo!'
+"""App routes"""
 
-if __name__ == '__main__':
-    app.run()
+#Question's backend routes  
+app.register_blueprint(questions_blueprint)
