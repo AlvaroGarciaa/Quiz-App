@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import ReactDOM from "react-dom";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-
 import QuizTimer from './QuizTimer';
 import QuizScoreboard from './QuizScoreboard';
+import PatternProPage from './PatternProPage';
 
 import '../styles/QuizPage.css'; // Import the CSS file for styling
+
 
 const QuizPage = () => {
   const [questionIndex, setQuestionIndex] = useState(0);
@@ -41,6 +43,9 @@ const QuizPage = () => {
     setIsAnswered(false);
     setIsCorrect(false);
   };
+  const ExitButton = ()=>{
+    ReactDOM.render(<PatternProPage />, document.getElementById("root"));
+  }
 
   const currentQuestion = questions[questionIndex];
 
@@ -51,10 +56,9 @@ const QuizPage = () => {
         onTimeout={handleNextQuestion}
       />
 
-      <Button className="exit-button" variant="contained" color="primary">
+      <Button className="exit-button" variant="contained" color="primary" onClick={ExitButton}>
         Exit
       </Button>
-
       <Box className={`white-box ${isAnswered && isCorrect ? 'green' : isAnswered ? 'red' : ''}`}>
         <Typography variant="h5" component="h2" className="question-title">
           {currentQuestion.title}
@@ -71,7 +75,6 @@ const QuizPage = () => {
           </Button>
         ))}
       </Box>
-
       <QuizScoreboard score={score} />
 
       <Button

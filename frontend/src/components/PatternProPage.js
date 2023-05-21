@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import Question from "./Questions.js";
+import QuizPage from "./Questions.js";
 import "../styles/PatternProPage.css"; // Import the CSS file
 
 function PatternProPage() {
@@ -16,16 +16,12 @@ function PatternProPage() {
   };
 
   const handleNextPage = () => {
-    ReactDOM.render(<Question />, document.getElementById("root"));
+    ReactDOM.render(<QuizPage />, document.getElementById("root"));
   };
 
   return (
     <div className="page-container">
-      {" "}
-      {/* Use class name */}
       <div className="content-container">
-        {" "}
-        {/* Use class name */}
         <h1 className="page-title">PatternPro</h1> {/* Use class name */}
         <input
           class="input-container"
