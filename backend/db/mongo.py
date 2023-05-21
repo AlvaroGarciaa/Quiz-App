@@ -3,7 +3,7 @@ from pymongo.server_api import ServerApi
 import os 
 import certifi
 
-
+"""Connection to Mongo Atlas cluster"""
 def get_mongo_connection():
     # Replace <username>, <password>, and <cluster_name> with your MongoDB Atlas credentials
     username =  os.environ.get('DB_USERNAME')
@@ -12,7 +12,6 @@ def get_mongo_connection():
     
     # Construct the MongoDB Atlas connection string
     connection_string  =f'mongodb+srv://{username}:{password}@{cluster_name}.mongodb.net/?retryWrites=true&w=majority'
-
 
     try:
         client = MongoClient(connection_string,tlsCAFile=certifi.where())
