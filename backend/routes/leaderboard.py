@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, current_app
+from flask import Blueprint, jsonify, current_app,request
 from pymongo import MongoClient
 
 
@@ -18,3 +18,24 @@ def getTop10():
             doc['_id'] = str(doc['_id'])
 
     return jsonify(result_list)
+
+@leaderboard_blueprint.route('/newScore',methods=["POST"])
+def newScore():
+
+    data = request.get_json()
+
+    name = data.get("name")
+    score = data.get("score")
+    date = data.get("date")
+
+    client = current_app.mongo_client
+    db = client['quiz_app_db']
+    collection = db['score']
+
+    new_Entry = {"name":name,"score":score,"date":date}
+
+    
+
+    collection.insert_one(new_Entry)
+
+    return "Ok"
