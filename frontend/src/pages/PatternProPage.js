@@ -66,7 +66,7 @@ function PatternProPage() {
         <div className="button-container">
           <Button
           onClick={() => {
-            if(errors.name && errors.questions)
+            if(errors.name || errors.questions || !numQuestions || !name)
               setErrors({...errors, start: true})
             else
               navigate("/quiz ")
