@@ -1,6 +1,6 @@
 import {Routes, Route} from 'react-router-dom';
-import PatternProPage from "./components/PatternProPage.js";
-import QuizPage from "./components/Questions.js";
+import PatternProPage from "./pages/PatternProPage.js";
+import QuizPage from "./pages/Questions.js";
 
 function App() {
   return (
