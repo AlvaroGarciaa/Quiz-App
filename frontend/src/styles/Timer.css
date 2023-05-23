@@ -1,0 +1,22 @@
+.quiz-timer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.quiz-timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+}
+
+.timer {
+  font-size: 48px;
+  font-weight: bold;
+  color: #6137E3;
+  font-family: 'Inter';
+  font-size: 3rem;
+}
