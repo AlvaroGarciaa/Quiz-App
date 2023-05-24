@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-
+import {Button} from '@mui/material';
 import Timer from '../components/Question/QuizTimer';
-
-// import '../styles'; // Import the CSS file for styling
+import QuizGrid from '../components/Question/QuizGrid';
+import '../styles/QuizPage.css'
 
 const QuizPage = () => {
   const [questionIndex, setQuestionIndex] = useState(0);
@@ -44,7 +41,22 @@ const QuizPage = () => {
   const currentQuestion = questions[questionIndex];
 
   return (
-      <Timer duration={30}/>
+      <div className='page'>
+        <div>
+          <Button sx={{
+            outline: "auto black"
+          }}>Exit quiz</Button>
+        </div>
+        <div className='timer-container'>
+          <Timer duration={30}/>
+        </div>
+        <div className='questions-container'>
+          <div className='title'>
+            What is a design pattern?
+          </div>
+          <QuizGrid/>            
+        </div>
+      </div>
   );
 };
 
