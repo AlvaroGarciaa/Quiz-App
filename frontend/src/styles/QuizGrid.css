@@ -1,0 +1,28 @@
+.quiz-grid-container {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .quiz-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1rem;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .quiz-cell {
+    border: 1.5px solid #6137E3;
+    padding: 2.5rem;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-family: 'Inter';
+  }
+
+  .quiz-cell:hover{
+    background-color: #6137E3;
+    /* font-family: 'Inter'; */
+  }
+  
