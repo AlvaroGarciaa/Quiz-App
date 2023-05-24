@@ -5,21 +5,24 @@ import '../../styles/Timer.css'
 const QuizTimer = ({ duration, onComplete }) => {
   return (
     <div className="quiz-timer-container">
-      <CountdownCircleTimer
-        isPlaying
-        duration={duration}
-        onComplete={onComplete}
-        colors={[['#6137E3']]}
-        size={200}
-        strokeWidth={10}
-        trailColor="#f0f0f0"
-      >
-        {({ remainingTime }) => (
-          <div className="quiz-timer">
+      <div className="quiz-timer">
+        <CountdownCircleTimer
+          isPlaying
+          duration={duration}
+          onComplete={onComplete}
+          colors={[['#6137E3']]}
+          size={100}
+          strokeWidth={10}
+          trailColor="none"
+        >
+          {({ remainingTime }) => (
             <div className="timer">{remainingTime}</div>
-          </div>
-        )}
-      </CountdownCircleTimer>
+          )}
+        </CountdownCircleTimer>
+        <svg className="progress-ring" width="100%" height="100%">
+          <circle className="progress-ring-background" r="95" cx="100" cy="100" />
+        </svg>
+      </div>
     </div>
   );
 };
