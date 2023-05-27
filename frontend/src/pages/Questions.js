@@ -1,51 +1,24 @@
 import React, { useState } from 'react';
 import {Button} from '@mui/material';
 import Timer from '../components/Question/QuizTimer';
+import QuizScoreboard from '../components/Question/QuizScoreboard';
 import QuizGrid from '../components/Question/QuizGrid';
+import CloseIcon from '@mui/icons-material/Close';
 import '../styles/QuizPage.css'
 
 const QuizPage = () => {
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [isAnswered, setIsAnswered] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [score, setScore] = useState(0);
-
-  const questions = [
-    {
-      title: 'Question 1',
-      options: [
-        { title: 'Option A', isCorrect: true },
-        { title: 'Option B', isCorrect: false },
-        { title: 'Option C', isCorrect: false },
-        { title: 'Option D', isCorrect: false },
-      ],
-    },
-    // Add more questions here...
-  ];
-
-  const handleOptionClick = (isCorrect) => {
-    setIsAnswered(true);
-    setIsCorrect(isCorrect);
-    if (isCorrect) {
-      const timeRemaining = 30; // Get the remaining time from QuizTimer component
-      setScore(score + (timeRemaining * 25));
-    }
-  };
-
-  const handleNextQuestion = () => {
-    setQuestionIndex(questionIndex + 1);
-    setIsAnswered(false);
-    setIsCorrect(false);
-  };
-
-  const currentQuestion = questions[questionIndex];
 
   return (
       <div className='page'>
-        <div>
+        <div className='exit-container'>
           <Button sx={{
-            outline: "auto black"
-          }}>Exit quiz</Button>
+            textTransform: "none",
+            color: "#A3A4AA",
+            fontWeight: 500,
+            fontFamily: "Inter",
+            fontSize: "1rem"
+          }} 
+          startIcon={<CloseIcon/>}>Finish quiz</Button>
         </div>
         <div className='timer-container'>
           <Timer duration={30}/>
@@ -55,6 +28,24 @@ const QuizPage = () => {
             What is a design pattern?
           </div>
           <QuizGrid/>            
+        </div>
+        <div className='controls-container'>
+          <div>
+            <QuizScoreboard/>
+          </div>
+          <div className='button-container'>
+            <Button
+            variant='contained'
+            sx={{
+              height: "100%",
+              backgroundColor: "#6137E3",
+              textTransform: "none",
+              fontFamily: "Inter",
+              fontWeight: 700,
+              fontSize: "1.5rem",
+              borderRadius: "1rem",
+            }}>Next question</Button>
+          </div>
         </div>
       </div>
   );
