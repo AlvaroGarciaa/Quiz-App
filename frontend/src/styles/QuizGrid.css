@@ -23,6 +23,7 @@
 
   .quiz-cell:hover{
     background-color: #6137E3;
-    /* font-family: 'Inter'; */
+    color: #F8F8FF;
+    font-family: 'Inter';
   }
   
