@@ -1,0 +1,38 @@
+.quiz-timer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: -50%;
+}
+
+.quiz-timer {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background-color: #F8F8FF;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.timer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-weight: bold;
+  color: #6137E3;
+  font-family: 'Inter';
+}
+
+.progress-ring {
+  fill: transparent;
+  stroke: #6137E3;
+  stroke-width: 10;
+}
+
+.progress-ring-background {
+  fill: none;
+  stroke: #f0f0f0;
+  stroke-width: 10;
+}
