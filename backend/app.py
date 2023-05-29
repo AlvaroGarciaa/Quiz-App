@@ -25,6 +25,7 @@ class MyApp(Flask):
         self.register_blueprint(questions_blueprint)
         self.register_blueprint(leaderboard_blueprint)
 
+    
     def initialize_mongo(self):
         self.mongo_client = get_mongo_connection()
 
