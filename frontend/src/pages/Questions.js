@@ -91,7 +91,7 @@ const Questions = () => {
         />
       <div className="controls-container">
         <div>
-          <QuizScoreboard score={score} />
+          <QuizScoreboard score={score} name = {quizName}/>
         </div>
         <div className="button-container">
           {answered ? (
