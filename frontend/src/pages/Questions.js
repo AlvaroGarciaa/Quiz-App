@@ -84,14 +84,11 @@ const Questions = () => {
           }}
         />
       </div>
-      <div className="questions-container">
-        <div className="title">What is a design pattern?</div>
         <QuizGrid
           answered={answered}
           handleAnswer={handleAnswer}
           isCorrect={isCorrect}
         />
-      </div>
       <div className="controls-container">
         <div>
           <QuizScoreboard score={score} />
