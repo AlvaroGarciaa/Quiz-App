@@ -1,0 +1,27 @@
+.stats-container{
+    background: #F8F8FF;
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+}
+
+.stats-grid-container{
+    width: 100%;
+    height: 100%;
+    font-family: 'Inter';
+    font-weight: 700;
+    font-size: 1rem;
+}
+.stats-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.5rem;
+
+}
+
+.stats-cell{
+    /* border: 1.5px solid black;    */
+    height: fit-content;
+    width: fit-content;
+    width: 100%;
+}
