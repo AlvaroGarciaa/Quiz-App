@@ -1,18 +1,15 @@
-import React from "react";
+import React from 'react';
 import '../../styles/QuizScoreboard.css';
 
-const QuizScoreboard = () => {
-
-    return(
-        <div className="container">
-            <div className="username">
-                Username
-            </div>
-            <div className="score-container">
-                <p>0000</p>
-            </div>
-        </div>
-    );
-}
+const QuizScoreboard = ({ score, name }) => {
+  return (
+    <div className='container'>
+      <div className='username'>{name}</div>
+      <div className='score-container'>
+        <p>{score}</p>
+      </div>
+    </div>
+  );
+};
 
 export default QuizScoreboard;
