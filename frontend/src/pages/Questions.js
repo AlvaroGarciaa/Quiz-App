@@ -31,7 +31,7 @@ const Questions = () => {
   useEffect(() => {
     if (currentQuestion > numQuestions) {
       // Quiz completed
-      navigate("/");
+      navigate("/finish");
     }
   }, [currentQuestion, numQuestions, navigate]);
   useEffect(() => {

@@ -1,502 +1,56 @@
-Okay, ahora:
+Hola tengo un peque;o problema en este c[odigo]:
 
-+Que cuando pase a la siguiente pregunta el reloj se reinicie a 30 de nuevo
-+Que la opcion que eligas TODOS los botones se pongan en rojo (incorrecto) o verde (correcto),incluyendo el recuadro de la pagina de QuizPage del .css del ..questions-container, background.
-+Que el nombre que pongas en el PatternProPage.js se muestre en el Scoreboard.js
-+y ya, por favor
+  import React, { useState } from "react";
+  import { Box } from "@mui/system";
+  import { shuffle } from "./Shuffle.js"; // Importar la función shuffle
+  import "../../styles/QuizGrid.css";
 
-PatternProPage.js:
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { StyledEngineProvider, Alert } from '@mui/material';
-import '../styles/PatternProPage.css';
+  const QuizGrid = ({ answered, handleAnswer, isCorrect }) => {
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [Correct, setCorrect] = useState(null);
 
-function PatternProPage() {
-  const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [numQuestions, setNumQuestions] = useState('');
-  const [errors, setErrors] = useState({
-    name: false,
-    questions: false,
-    start: false
-  });
+    const options = [
+      { id: 1, text: "Option 1", isCorrect: false },
+      { id: 2, text: "Option 2", isCorrect: false },
+      { id: 3, text: "Option 3", isCorrect: false },
+      { id: 4, text: "Option 4", isCorrect: false },
+    ];
 
-  const handleNameChange = (e) => {
-    const v = e.target.value;
-    if (!/^[0-9a-zA-Z]{1,8}$/.test(v)) {
-      setErrors({ ...errors, name: true });
-    } else {
-      setErrors({ ...errors, name: false });
-      setName(v);
-    }
-  };
+    const randomIndex = Math.floor(Math.random() * options.length);
+    options[randomIndex].isCorrect = true;
+    const shuffledOptions = shuffle(options); // Opciones mezcladas
 
-  const handleNumQuestionsChange = (e) => {
-    const v = e.target.value;
+    const handleOptionClick = (option) => {
+      if (answered) return;
+      setSelectedOption(option);
+      const isAnswerCorrect = option.isCorrect;
+      setCorrect(isAnswerCorrect);
+      handleAnswer(isAnswerCorrect);
+    };
 
-    if (!/^(?:[1-9]|10)$/.test(v)) {
-      setErrors({ ...errors, questions: true });
-    } else {
-      setErrors({ ...errors, questions: false });
-      setNumQuestions(v);
-    }
-  };
-
-  const handleStartQuiz = () => {
-    if (errors.name || errors.questions || !numQuestions || !name) {
-      setErrors({ ...errors, start: true });
-    } else {
-      navigate('/quiz', {
-        state: {
-          numQuestions: parseInt(numQuestions),
-          quizName: name
-        }
-      });
-    }
-  };
-
-  return (
-    <StyledEngineProvider>
-      <div className='page-container'>
-        <div className='content-container'>
-          <h1 className='page-title'>PatternPro</h1>
-          <div className='input-container'>
-            {errors.start && (
-              <Alert severity='error' variant='filled'>
-                Wrong information
-              </Alert>
-            )}
-            <TextField
-              error={errors.name}
-              fullWidth
-              variant='outlined'
-              label='Name'
-              onChange={handleNameChange}
-            />
-
-            <TextField
-              error={errors.questions}
-              fullWidth
-              type='number'
-              variant='outlined'
-              label='Number of questions'
-              onChange={handleNumQuestionsChange}
-              sx={{
-                fontFamily: 'Inter',
-                fontWeight: '700'
-              }}
-            />
+    return (
+    <div className={`questions-container ${Correct !== null ? (Correct ? "correct" : "incorrect") : ""}`}>
+      <div className="title">What is a design pattern?</div>
+        <div className="quiz-grid-container">
+          <Box display="flex" justifyContent="center" alignItems="center" height="100%" width="100%">
+            <div className="quiz-grid">
+            {shuffledOptions.map((option) => (
+              <div
+                key={option.id}
+                className={`quiz-cell ${selectedOption !== null ? (selectedOption === option ? "selected" : "nonselected"): ""}`}
+                onClick={() => handleOptionClick(option)}
+              >
+                {option.text}
+              </div>
+            ))}
           </div>
-        </div>
-        <div className='button-container'>
-          <Button
-            onClick={handleStartQuiz}
-            variant='contained'
-            className='start-button'
-            sx={{
-              background: '#6137E3',
-              textTransform: 'none',
-              paddingTop: '0.5rem',
-              paddingBottom: '0.5rem',
-              fontSize: '2.5rem',
-              fontFamily: 'Inter',
-              fontWeight: 700,
-              borderRadius: '0.9rem',
-              width: '15%'
-            }}
-            disableElevation
-          >
-            Start
-          </Button>
-        </div>
-      </div>
-    </StyledEngineProvider>
-  );
-}
-
-export default PatternProPage;
-
-
-Scoreboard.js:
-import React from 'react';
-import '../../styles/QuizScoreboard.css';
-
-const QuizScoreboard = ({ score, name }) => {
-  return (
-    <div className='container'>
-      <div className='username'>{name}</div>
-      <div className='score-container'>
-        <p>{score}</p>
+        </Box>
       </div>
     </div>
-  );
-};
-
-export default QuizScoreboard;
-Questions.js:
-
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import Button from "@mui/material/Button";
-import CloseIcon from "@mui/icons-material/Close";
-import QuizGrid from "../components/Question/QuizGrid.js";
-import QuizScoreboard from "../components/Question/QuizScoreboard.js";
-import Timer from "../components/Question/QuizTimer.js";
-import "../styles/QuizPage.css";
-
-const Questions = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { numQuestions, quizName } = location.state || {};
-  const [currentQuestion, setCurrentQuestion] = useState(1);
-  const [score, setScore] = useState(0);
-  const [answered, setAnswered] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(null);
-  const [timer, setTimer] = useState(30);
-
-  useEffect(() => {
-    if (
-      !location.state ||
-      !location.state.numQuestions ||
-      !location.state.quizName
-    ) {
-      // Redirect if state is not provided
-      navigate("/");
-    }
-  }, [location.state, navigate]);
-
-  useEffect(() => {
-    if (currentQuestion > numQuestions) {
-      // Quiz completed
-      navigate("/");
-    }
-  }, [currentQuestion, numQuestions, navigate]);
-  useEffect(() => {
-    setTimer(30);
-  }, [currentQuestion]);
-
-  const handleAnswer = (isCorrect) => {
-    setAnswered(true);
-    setIsCorrect(isCorrect);
-
-    if (isCorrect) {
-      setScore(score + 100);
-    }
+    );
   };
 
-  const handleNextQuestion = () => {
-    setCurrentQuestion(currentQuestion + 1);
-    setAnswered(false);
-    setIsCorrect(null);
-  };
-
-  const handleFinishQuiz = () => {
-    navigate("/");
-  };
-
-  return (
-    <div className="page">
-      <div className="exit-container">
-        <Button
-          sx={{
-            textTransform: "none",
-            color: "#A3A4AA",
-            fontWeight: 500,
-            fontFamily: "Inter",
-            fontSize: "1rem",
-          }}
-          startIcon={<CloseIcon />}
-          onClick={handleFinishQuiz}
-        >
-          Finish quiz
-        </Button>
-      </div>
-      <div className="timer-container">
-        <Timer
-          duration={timer}
-          onComplete={() => {
-            if (!answered) {
-              handleAnswer(false);
-            }
-          }}
-        />
-      </div>
-      <div className="questions-container">
-        <div className="title">What is a design pattern?</div>
-        <QuizGrid
-          answered={answered}
-          handleAnswer={handleAnswer}
-          isCorrect={isCorrect}
-        />
-      </div>
-      <div className="controls-container">
-        <div>
-          <QuizScoreboard score={score} />
-        </div>
-        <div className="button-container">
-          {answered ? (
-            <Button
-              variant="contained"
-              sx={{
-                height: "100%",
-                backgroundColor: "#6137E3",
-                textTransform: "none",
-                fontFamily: "Inter",
-                fontWeight: 700,
-                fontSize: "1.5rem",
-                borderRadius: "1rem",
-              }}
-              onClick={handleNextQuestion}
-            >
-              Next question
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              sx={{
-                height: "100%",
-                backgroundColor: "#6137E3",
-                textTransform: "none",
-                fontFamily: "Inter",
-                fontWeight: 700,
-                fontSize: "1.5rem",
-                borderRadius: "1rem",
-              }}
-              disabled={!answered}
-            >
-              Submit
-            </Button>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default Questions;
+  export default QuizGrid;
 
 
-
-
-QuizTimer.js:
-import React from 'react';
-import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-import '../../styles/Timer.css';
-
-const QuizTimer = ({ duration, onComplete }) => {
-  return (
-    <div className='quiz-timer-container'>
-      <div className='quiz-timer'>
-        <CountdownCircleTimer
-          isPlaying
-          duration={duration}
-          onComplete={onComplete}
-          colors={[['#6137E3']]}
-          size={100}
-          strokeWidth={10}
-          trailColor='none'
-        >
-          {({ remainingTime }) => <div className='timer'>{remainingTime}</div>}
-        </CountdownCircleTimer>
-        <svg className='progress-ring' width='100%' height='100%'>
-          <circle className='progress-ring-background' r='95' cx='100' cy='100' />
-        </svg>
-      </div>
-    </div>
-  );
-};
-
-export default QuizTimer;
-
-
-QuizGrid.js:
-import React, { useState } from "react";
-import { Box } from "@mui/system";
-import { shuffle } from "./Shuffle.js"; // Importar la función shuffle
-import "../../styles/QuizGrid.css";
-
-const QuizGrid = ({ answered, handleAnswer, isCorrect }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const options = [
-    { id: 1, text: "Option 1", isCorrect: false },
-    { id: 2, text: "Option 2", isCorrect: false },
-    { id: 3, text: "Option 3", isCorrect: false },
-    { id: 4, text: "Option 4", isCorrect: false },
-  ];
-
-  const randomIndex = Math.floor(Math.random() * options.length);
-  options[randomIndex].isCorrect = true;
-  const shuffledOptions = shuffle(options); // Opciones mezcladas
-
-  const handleOptionClick = (option) => {
-    if (answered) return;
-    setSelectedOption(option);
-    handleAnswer(option.isCorrect);
-  };
-  
-
-  return (
-    <div className="quiz-grid-container">
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        height="100%"
-        width="100%"
-      >
-        <div className="quiz-grid">
-          {shuffledOptions.map((option) => (
-            <div
-              key={option.id}
-              className={`quiz-cell ${
-                selectedOption &&
-                selectedOption.id === option.id &&
-                (selectedOption.isCorrect ? "correct" : "incorrect")
-              }`}              
-              onClick={() => handleOptionClick(option)}
-            >
-              {option.text}
-            </div>
-          ))}
-        </div>
-      </Box>
-    </div>
-  );
-};
-
-export default QuizGrid;
-
-
-
-QuizGrid.css:
-.quiz-grid-container {
-  width: 100%;
-  height: 100%;
-}
-
-.quiz-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 1rem;
-  width: 100%;
-  height: 100%;
-}
-
-.quiz-cell {
-  border: 1.5px solid #6137E3;
-  padding: 2.5rem;
-  border-radius: 20px;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  font-family: 'Inter';
-}
-
-.quiz-cell:hover {
-  background-color: #6137E3;
-  color: #F8F8FF;
-  font-family: 'Inter';
-}
-
-.quiz-cell.correct {
-  background-color: green;
-  color: white;
-}
-
-.quiz-cell.incorrect {
-  background-color: red;
-  color: white;
-}
-
-
-QuizPage.css:
-.page{
-
-  background-color: #30313A;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  position: relative;
-} 
-
-.timer-container{
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-}
-
-.questions-container {
-  width: 90%;
-  background: #F8F8FF;
-  padding: 20px;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 28rem;
-}
-
-
-.title {
-  font-family: 'Inter';
-  font-size: 3rem;
-  padding: 2rem;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
-
-.quiz-grid-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto; 
-  width: 100%;
-  height: auto;  
-}
-
-.controls-container {
-  display: flex;
-  width: 90%;
-  margin-top: 1%;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.controls-container > * {
-  margin-left: -20px; /* Ignore left padding for content */
-}
-
-.exit-container{
-  display: flex;
-  width: 90%;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.exit-container > * {
-  margin-left: -20px;
-}
-
-.button-container {
-  padding: 0;
-  margin: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-}
-
-.button-container > * {
-  margin-right: -20px;
-}
-
-pon todos los cambios en los codigos que te paso, por favor
+Por alguna extra;a razon cuando le doy a mi opcion todas las opciones se pongan en un mismo estilo, necesito que las dem[as se pongan del estilo  unselected y que la que seleccione se ponga selected], puedes ayudarme?

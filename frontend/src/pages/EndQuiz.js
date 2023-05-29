@@ -1,11 +1,23 @@
 import React from "react";
 import { Button } from "@mui/material";
+import {useNavigate} from "react-router-dom";
 import ScoreContainer from "../components/EndQuiz/ScoreContainer";
 import UserStats from "../components/EndQuiz/UserStats";
 import '../styles/EndQuiz.css'
 
 
 const EndQuiz = () => {
+    const navigate = useNavigate();
+    
+      const RetakeQuiz = () => {
+        navigate("/quiz");
+      };
+      const GoLeaderboard = () => {
+        navigate("/");
+      };
+      const TakeAnotherQuiz = () => {
+        navigate("/");
+      };
 
     return(
         <div className="end-quiz">
@@ -24,7 +36,7 @@ const EndQuiz = () => {
                     fontFamily: "Inter",
                     fontWeight: 700,
                     borderRadius: "0.9rem"
-                }}>Retake quiz</Button>
+                }}onClick={RetakeQuiz}>Retake quiz</Button>
                 <Button
                 variant="contained"
                 disableElevation
@@ -37,7 +49,7 @@ const EndQuiz = () => {
                     fontFamily: "Inter",
                     fontWeight: 700,
                     borderRadius: "0.9rem"
-                }}>Leaderboard</Button>
+                }}onClick={GoLeaderboard}>Leaderboard</Button>
                 <Button
                 variant="contained"
                 disableElevation
@@ -50,7 +62,7 @@ const EndQuiz = () => {
                     fontFamily: "Inter",
                     fontWeight: 700,
                     borderRadius: "0.9rem"
-                }}>Start another quiz</Button>
+                }}onClick={TakeAnotherQuiz}>Start another quiz</Button>
             </div> 
         </div>
     );
