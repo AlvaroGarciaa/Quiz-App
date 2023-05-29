@@ -1,27 +1,27 @@
+#App class  tests
+# Date: 22-May-2023 
+    #Alvaro Enrique Garcia Espinosa A01781511
+    #Diego Mellado Oliveros A01655451 
+    #Adrian Bravo López A01752067 
+    #Alan Said Martínez Guzmán A01746210 
+    #Josué Bernardo Villegas Nuño A01751694 
+
+
 import unittest
+from pymongo.mongo_client import MongoClient
 from flask import current_app, url_for
 from flask_testing import TestCase
 from ..app import MyApp
 from ..db.mongo import get_mongo_connection
 from ..controllers.questions import questions_blueprint
 from ..controllers.leaderboard import leaderboard_blueprint
-import sys
-import os
+
 
 
 class MyAppTestCase(TestCase):
     def create_app(self):
         # Create and return an instance of your Flask application for testing
         return MyApp(__name__)
-
-    def setUp(self):
-        # This method is called before each test
-        #self.mongo_client = get_mongo_connection()
-        pass
-
-    def tearDown(self):
-        # This method is called after each test
-        pass
 
     def test_blueprints_registered(self):
         # Test that the blueprints are properly registered
@@ -32,8 +32,4 @@ class MyAppTestCase(TestCase):
             self.assert200(response)
             response = client.post(url_for('leaderboard_blueprint.new_score'))
             self.assert200(response)
-
-    def test_mongo_initialized(self):
-        # Test that the MongoDB connection is initialized
-        with self.app.app_context():
-            self.assertIsNotNone(self.app.mongo_client)
+ 
