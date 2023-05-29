@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Button from "@mui/material/Button";
+import {Button} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import QuizGrid from "../components/Question/QuizGrid.js";
 import QuizScoreboard from "../components/Question/QuizScoreboard.js";
