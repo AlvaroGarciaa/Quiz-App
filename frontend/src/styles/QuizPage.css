@@ -14,31 +14,6 @@
   height: 100%;
 }
 
-.questions-container {
-  width: 90%;
-  background: #F8F8FF;
-  padding: 20px;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 28rem;
-}
-
-
-.title {
-  font-family: 'Inter';
-  font-size: 3rem;
-  padding: 2rem;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
 
 .quiz-grid-container {
   display: flex;
