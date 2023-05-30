@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {Button} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -15,11 +15,7 @@ const Questions = () => {
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(null);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
-  const [wrongAnswers, setWrongAnswers] = useState(0);
   const [timer, setTimer] = useState(30);
-  const [key, setKey] = useState(0); 
-
   console.log(randomquestions[currentQuestion-1])
   useEffect(() => {
     if (
@@ -34,49 +30,27 @@ const Questions = () => {
 
   useEffect(() => {
     if (currentQuestion > numQuestions) {
-        // Quiz completed
-
-        navigate("/finish", {
-            state: {
-                score: score,
-                numQuestions: numQuestions,
-                wrongAnswers: wrongAnswers,
-                correctAnswers: correctAnswers,
-            },
-        });
+      // Quiz completed
+      navigate("/");
     }
-}, [
-    currentQuestion,
-    numQuestions,
-    navigate,
-    score,
-    correctAnswers,
-    wrongAnswers,
-]);
-useEffect(() => {
+  }, [currentQuestion, numQuestions, navigate]);
+  useEffect(() => {
     setTimer(30);
-    setKey((prevKey) => prevKey + 1);
-}, [currentQuestion]);
+  }, [currentQuestion]);
 
   const handleAnswer = (isCorrect) => {
     setAnswered(true);
     setIsCorrect(isCorrect);
 
     if (isCorrect) {
-        setScore(score + 100);
-        setCorrectAnswers(correctAnswers + 1);
-    } else {
-        setWrongAnswers(prevValue => prevValue + 1);
+      setScore(score + 100);
     }
-};
+  };
 
   const handleNextQuestion = () => {
     setCurrentQuestion(currentQuestion + 1);
     setAnswered(false);
     setIsCorrect(null);
-    const questionsContainer = document.querySelector(".questions-container");
-    questionsContainer.classList.remove("correct");
-    questionsContainer.classList.remove("incorrect");
   };
 
   const handleFinishQuiz = () => {
@@ -102,7 +76,6 @@ useEffect(() => {
       </div>
       <div className="timer-container">
         <Timer
-        key={key}
           duration={timer}
           onComplete={() => {
             if (!answered) {
@@ -119,7 +92,7 @@ useEffect(() => {
         />
       <div className="controls-container">
         <div>
-          <QuizScoreboard score={score} name ={quizName} />
+          <QuizScoreboard score={score} />
         </div>
         <div className="button-container">
           {answered ? (
