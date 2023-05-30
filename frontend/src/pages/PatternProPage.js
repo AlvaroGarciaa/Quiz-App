@@ -38,6 +38,16 @@ function PatternProPage() {
     if (errors.name || errors.questions || !numQuestions || !name) {
       setErrors({ ...errors, start: true });
     } else {
+      let randomquestions = []
+      fetch("https://us-central1-tc3005b-a01752067.cloudfunctions.net/get_questions")
+      .then(response =>response.json())
+      .then(data =>{
+        for (let i = 0; i < parseInt(numQuestions); i++) {
+          const randomIndex = Math.floor(Math.random() * data.length);
+          randomquestions.push(data[randomIndex]);
+        }
+      })
+      console.log(randomquestions)
       navigate('/quiz', {
         state: {
           numQuestions: parseInt(numQuestions),
