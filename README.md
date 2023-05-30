@@ -51,7 +51,7 @@ Start the server
 | Functions | Description |
 | :-------- |:----------- |
 |`__init__` |initializes an instance in the class and sets the path to get_questions.|
-|`get_questions` |Gets all the queries stored in the mongoDB database (quiz_app_db) and brings them to the frontend in JSON format.|
+|`get_questions()` |Gets all the queries stored in the mongoDB database (quiz_app_db) and brings them to the frontend in JSON format.|
 
 ## Patterns used
 
