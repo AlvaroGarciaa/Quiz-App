@@ -16,9 +16,8 @@ const Questions = () => {
   const [answered, setAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(null);
   const [timer, setTimer] = useState(30);
-
+  console.log(randomquestions[currentQuestion-1])
   useEffect(() => {
-    console.log(randomquestions)
     if (
       !location.state ||
       !location.state.numQuestions ||
@@ -89,7 +88,7 @@ const Questions = () => {
           answered={answered}
           handleAnswer={handleAnswer}
           isCorrect={isCorrect}
-          //item = {questions[0]}
+          item = {randomquestions[currentQuestion - 1]}
         />
       <div className="controls-container">
         <div>

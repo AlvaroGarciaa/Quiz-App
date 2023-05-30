@@ -7,12 +7,27 @@
     const [selectedOption, setSelectedOption] = useState(null);
     const [Correct, setCorrect] = useState(null);
 
-    const options = [
-      { id: 1, text: "Option 1", isCorrect: false },
-      { id: 2, text: "Option 2", isCorrect: false },
-      { id: 3, text: "Option 3", isCorrect: false },
-      { id: 4, text: "Option 4", isCorrect: false },
+
+
+    let options = [
+      { id: 1, text: item.answers.a, isCorrect: false },
+      { id: 2, text: item.answers.b, isCorrect: false },
+      { id: 3, text: item.answers.c, isCorrect: false },
+      { id: 4, text: item.answers.d, isCorrect: false },
     ];
+
+    if(item.correct_answer === "a"){
+      options[0].isCorrect = true;
+    }
+    else if(item.correct_answer === "b"){
+      options[1].isCorrect = true;
+    }
+    else if(item.correct_answer === "c"){
+      options[2].isCorrect = true;
+    }
+    else{
+      options[3].isCorrect = true;
+    }
 
     const randomIndex = Math.floor(Math.random() * options.length);
     options[randomIndex].isCorrect = true;
@@ -28,7 +43,7 @@
 
     return (
     <div className={`questions-container ${Correct !== null ? (Correct ? "correct" : "incorrect") : ""}`}>
-      <div className="title">A</div>
+      <div className="title">{item.question}</div>
         <div className="quiz-grid-container">
           <Box display="flex" justifyContent="center" alignItems="center" height="100%" width="100%">
             <div className="quiz-grid">

@@ -46,15 +46,15 @@ function PatternProPage() {
           const randomIndex = Math.floor(Math.random() * data.length);
           randomquestions.push(data[randomIndex]);
         }
+        navigate('/quiz', {
+          state: {
+            numQuestions: parseInt(numQuestions),
+            quizName: name,
+            randomquestions:randomquestions
+          }
+        });
       })
-      //console.log(randomquestions)
-      navigate('/quiz', {
-        state: {
-          numQuestions: parseInt(numQuestions),
-          quizName: name,
-          randomquestions:randomquestions
-        }
-      });
+      
     }
   };
 
