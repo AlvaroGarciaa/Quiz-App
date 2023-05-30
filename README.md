@@ -40,6 +40,25 @@ Start the server
 
 ## Classes and methods
 
+```http
+  leaderboard class
+```
+
+| Functions | Description |
+| :-------- |:----------- |
+|`__init__`     |initializes an instance in the class and create the corresponding paths to the get_top_ten() and new_score() functions.|
+| `get_top_ten()`|Within the leaderboard it places the people with the 5 highest scores in the app.|
+|`new score()`   |Saves in the database the score, name and date on which the person took the quiz.|
+
+```http
+  QuestionsBlueprint class
+```
+
+| Functions | Description |
+| :-------- |:----------- |
+|`__init__` |initializes an instance in the class and sets the path to get_questions.|
+|`get_questions` |Gets all the queries stored in the mongoDB database (quiz_app_db) and brings them to the frontend in JSON format.|
+
 ## Patterns used
 
 
