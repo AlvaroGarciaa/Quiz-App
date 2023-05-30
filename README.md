@@ -32,12 +32,6 @@ Start the server
   npm run start
 ```
 
-## Tech Stack
-
-**Client:** ReactJS, CSS
-
-**Server:** Python (flask), MongoDB
-
 ## Classes and methods
 
 ```http
@@ -61,5 +55,10 @@ Start the server
 
 ## Patterns used
 
+## Tech Stack
+
+**Client:** ReactJS, CSS
+
+**Server:** Python (flask), MongoDB
 
 
