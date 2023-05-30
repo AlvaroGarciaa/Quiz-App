@@ -1,118 +1,9 @@
 Hi, I need your help
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {TextField, Button, StyledEngineProvider, Alert } from '@mui/material';
-import '../styles/PatternProPage.css';
-
-function PatternProPage() {
-  const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [numQuestions, setNumQuestions] = useState('');
-  const [errors, setErrors] = useState({
-    name: false,
-    questions: false,
-    start: false
-  });
-
-  const handleNameChange = (e) => {
-    const v = e.target.value;
-    if (!/^[0-9a-zA-Z]{1,8}$/.test(v)) {
-      setErrors({ ...errors, name: true });
-    } else {
-      setErrors({ ...errors, name: false });
-      setName(v);
-    }
-  };
-
-  const handleNumQuestionsChange = (e) => {
-    const v = e.target.value;
-
-    if (!/^(?:[1-9]|10)$/.test(v)) {
-      setErrors({ ...errors, questions: true });
-    } else {
-      setErrors({ ...errors, questions: false });
-      setNumQuestions(v);
-    }
-  };
-
-  const handleStartQuiz = () => {
-    if (errors.name || errors.questions || !numQuestions || !name) {
-      setErrors({ ...errors, start: true });
-    } else {
-      navigate('/quiz', {
-        state: {
-          numQuestions: parseInt(numQuestions),
-          quizName: name
-        }
-      });
-    }
-  };
-
-  return (
-    <StyledEngineProvider>
-      <div className='page-container'>
-        <div className='content-container'>
-          <h1 className='page-title'>PatternPro</h1>
-          <div className='input-container'>
-            {errors.start && (
-              <Alert severity='error' variant='filled'>
-                Wrong information
-              </Alert>
-            )}
-            <TextField
-              error={errors.name}
-              fullWidth
-              variant='outlined'
-              label='Name'
-              onChange={handleNameChange}
-            />
-
-            <TextField
-              error={errors.questions}
-              fullWidth
-              type='number'
-              variant='outlined'
-              label='Number of questions'
-              onChange={handleNumQuestionsChange}
-              sx={{
-                fontFamily: 'Inter',
-                fontWeight: '700'
-              }}
-            />
-          </div>
-        </div>
-        <div className='button-container'>
-          <Button
-            onClick={handleStartQuiz}
-            variant='contained'
-            className='start-button'
-            sx={{
-              background: '#6137E3',
-              textTransform: 'none',
-              paddingTop: '0.5rem',
-              paddingBottom: '0.5rem',
-              fontSize: '2.5rem',
-              fontFamily: 'Inter',
-              fontWeight: 700,
-              borderRadius: '0.9rem',
-              width: '15%'
-            }}
-            disableElevation
-          >
-            Start
-          </Button>
-        </div>
-      </div>
-    </StyledEngineProvider>
-  );
-}
-
-export default PatternProPage;
-
+Questions.js:
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import QuizGrid from "../components/Question/QuizGrid.js";
 import QuizScoreboard from "../components/Question/QuizScoreboard.js";
@@ -128,6 +19,18 @@ const Questions = () => {
   const [answered, setAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(null);
   const [timer, setTimer] = useState(30);
+  const [numCorrect, setNumCorrect] = useState(0);
+  const [numWrong, setNumWrong] = useState(0);
+
+  const [errors, setErrors] = useState({
+    numQuestions: false,
+    numCorrect: false,
+    numWrong: false,
+    score: false,
+    start: false
+  });
+
+  
 
   useEffect(() => {
     if (
@@ -142,10 +45,20 @@ const Questions = () => {
 
   useEffect(() => {
     if (currentQuestion > numQuestions) {
+      if (errors.numQuestions || errors.numCorrect || errors.numWrong || errors.score || !numQuestions || !numCorrect|| !numWrong || !score) {
+        setErrors({ ...errors, start: true });
+      } else {
       // Quiz completed
-      navigate("/finish");
+      navigate("/finish", {
+        state: {
+          numQuestions: parseInt(numQuestions),
+          numCorrect: parseInt(numCorrect),
+          numWrong: parseInt(numWrong),
+          score:parseInt(score),
+        },
+      });
     }
-  }, [currentQuestion, numQuestions, navigate]);
+}});
   useEffect(() => {
     setTimer(30);
   }, [currentQuestion]);
@@ -156,6 +69,9 @@ const Questions = () => {
 
     if (isCorrect) {
       setScore(score + 100 * timer);
+      setNumCorrect(numCorrect + 1);
+    } else {
+      setNumWrong(numWrong + 1);
     }
   };
 
@@ -166,7 +82,6 @@ const Questions = () => {
     const questionsContainer = document.querySelector(".questions-container");
     questionsContainer.classList.remove("correct");
     questionsContainer.classList.remove("incorrect");
-    
   };
 
   const handleFinishQuiz = () => {
@@ -200,14 +115,14 @@ const Questions = () => {
           }}
         />
       </div>
-        <QuizGrid
-          answered={answered}
-          handleAnswer={handleAnswer}
-          isCorrect={isCorrect}
-        />
+      <QuizGrid
+        answered={answered}
+        handleAnswer={handleAnswer}
+        isCorrect={isCorrect}
+      />
       <div className="controls-container">
         <div>
-          <QuizScoreboard score={score} name = {quizName}/>
+          <QuizScoreboard score={score} name={quizName} />
         </div>
         <div className="button-container">
           {answered ? (
@@ -251,145 +166,205 @@ const Questions = () => {
 
 export default Questions;
 
-import React from "react";
+QuizGrid.js:
+import React, { useState/*, useEffect*/ } from "react";
+import { Box } from "@mui/system";
+import { shuffle } from "./Shuffle.js"; // Importar la función shuffle
+import "../../styles/QuizGrid.css";
+//const axios = require("axios");
+
+const QuizGrid = ({ answered, handleAnswer, isCorrect }) => {
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [Correct, setCorrect] = useState(null);
+
+  const options = [
+    { id: 1, text: "Option 1", isCorrect: false },
+    { id: 2, text: "Option 2", isCorrect: false },
+    { id: 3, text: "Option 3", isCorrect: false },
+    { id: 4, text: "Option 4", isCorrect: false },
+  ];
+
+  //const randomIndex = Math.floor(Math.random() * options.length);
+  const shuffledOptions = shuffle(options); // Opciones mezcladas
+
+  const handleOptionClick = (option) => {
+    if (answered) return;
+    setSelectedOption(option);
+    const isAnswerCorrect = option.isCorrect;
+    setCorrect(isAnswerCorrect);
+    handleAnswer(isAnswerCorrect);
+    const questionsContainer = document.querySelector(".questions-container");
+    questionsContainer.classList.add("correct");
+    questionsContainer.classList.add("incorrect");
+  };
+
+  return (
+    <div className={`questions-container ${Correct !== null ? (Correct ? "correct" : "incorrect") : ""}`}>
+      <div className="title">What is a</div>
+      <div className="quiz-grid-container">
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="100%"
+          width="100%"
+        >
+          <div className="quiz-grid">
+            {shuffledOptions.map((option) => (
+              <div
+                key={option.id}
+                className={`quiz-cell ${
+                  selectedOption !== null && selectedOption.id === option.id
+                    ? "selected"
+                    : "nonselected"
+                }`}
+                onClick={() => handleOptionClick(option)}
+              >
+                {option.text}
+              </div>
+            ))}
+          </div>
+        </Box>
+      </div>
+    </div>
+  );
+};
+
+export default QuizGrid;
+
+For some reason after i finish my questions, the page starts to bug out i dont know why...
+can you help me find the error please, i am trying to pass this things to the page of /finish, but i dont know if i am correct this way 
+
+This is the page where u want to send it to...
+
+import React, { useEffect } from "react";
 import { Button } from "@mui/material";
-import {useNavigate} from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ScoreContainer from "../components/EndQuiz/ScoreContainer";
 import UserStats from "../components/EndQuiz/UserStats";
-import '../styles/EndQuiz.css'
-
+import "../styles/EndQuiz.css";
 
 const EndQuiz = () => {
-    const navigate = useNavigate();
-    
-      const RetakeQuiz = () => {
-        navigate("/quiz");
-      };
-      const GoLeaderboard = () => {
-        navigate("/");
-      };
-      const TakeAnotherQuiz = () => {
-        navigate("/");
-      };
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { numWrong, numCorrect, numQuestions, score } = location.state || {};
+  useEffect(() => {
+    if (
+      !location.state ||
+      !location.state.numQuestions ||
+      !location.state.numCorrect ||
+      !location.state.numWrong ||
+      !location.state.score
+    ) {
+      // Redirect if state is not provided
+      navigate("/");
+    }
+  }, [location.state, navigate]);
 
-    return(
-        <div className="end-quiz">
-            <ScoreContainer/>
-            <UserStats/>
-            <div className="buttons-container">
-                <Button
-                variant="contained"
-                disableElevation
-                sx={{
-                    background: "#6137E3",
-                    textTransform: "none",
-                    paddingTop: "0.5rem",
-                    paddingBottom: "0.5rem",
-                    fontSize: "1.2rem",
-                    fontFamily: "Inter",
-                    fontWeight: 700,
-                    borderRadius: "0.9rem"
-                }}onClick={RetakeQuiz}>Retake quiz</Button>
-                <Button
-                variant="contained"
-                disableElevation
-                sx={{
-                    background: "#FFC107",
-                    textTransform: "none",
-                    paddingTop: "0.5rem",
-                    paddingBottom: "0.5rem",
-                    fontSize: "1.2rem",
-                    fontFamily: "Inter",
-                    fontWeight: 700,
-                    borderRadius: "0.9rem"
-                }}onClick={GoLeaderboard}>Leaderboard</Button>
-                <Button
-                variant="contained"
-                disableElevation
-                sx={{
-                    background: "#EE0808",
-                    textTransform: "none",
-                    paddingTop: "0.5rem",
-                    paddingBottom: "0.5rem",
-                    fontSize: "1.2rem",
-                    fontFamily: "Inter",
-                    fontWeight: 700,
-                    borderRadius: "0.9rem"
-                }}onClick={TakeAnotherQuiz}>Start another quiz</Button>
-            </div> 
-        </div>
-    );
+  const RetakeQuiz = () => {
+    navigate("/quiz");
+  };
+  const GoLeaderboard = () => {
+    navigate("/");
+  };
+  const TakeAnotherQuiz = () => {
+    navigate("/");
+  };
+
+  return (
+    <div className="end-quiz">
+      <ScoreContainer score={score} />
+      <UserStats
+        numWrong={numWrong}
+        currentQuestion={numQuestions}
+        numCorrect={numCorrect}
+      />
+      <div className="buttons-container">
+        <Button
+          variant="contained"
+          disableElevation
+          sx={{
+            background: "#6137E3",
+            textTransform: "none",
+            paddingTop: "0.5rem",
+            paddingBottom: "0.5rem",
+            fontSize: "1.2rem",
+            fontFamily: "Inter",
+            fontWeight: 700,
+            borderRadius: "0.9rem",
+          }}
+          onClick={RetakeQuiz}
+        >
+          Retake quiz
+        </Button>
+        <Button
+          variant="contained"
+          disableElevation
+          sx={{
+            background: "#FFC107",
+            textTransform: "none",
+            paddingTop: "0.5rem",
+            paddingBottom: "0.5rem",
+            fontSize: "1.2rem",
+            fontFamily: "Inter",
+            fontWeight: 700,
+            borderRadius: "0.9rem",
+          }}
+          onClick={GoLeaderboard}
+        >
+          Leaderboard
+        </Button>
+        <Button
+          variant="contained"
+          disableElevation
+          sx={{
+            background: "#EE0808",
+            textTransform: "none",
+            paddingTop: "0.5rem",
+            paddingBottom: "0.5rem",
+            fontSize: "1.2rem",
+            fontFamily: "Inter",
+            fontWeight: 700,
+            borderRadius: "0.9rem",
+          }}
+          onClick={TakeAnotherQuiz}
+        >
+          Start another quiz
+        </Button>
+      </div>
+    </div>
+  );
 };
 
 export default EndQuiz;
 
-I need that in the next .js:
 
-import React from "react";
-import '../../styles/ScoreContainer.css'
+and this is the app.js:
 
-const ScoreContainer = () => {
+import {Routes, Route} from 'react-router-dom';
+import PatternProPage from "./pages/PatternProPage.js";
+import QuizPage from "./pages/Questions.js";
+import EndQuiz from './pages/EndQuiz.js';
 
-    return(
-        <div className="score-display">
-            <p className="score">1500</p>
-        </div>
-    );
-};
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<PatternProPage/>}/>
+      <Route path="/quiz" element={<QuizPage/>}/>
+      <Route path="/finish" element = {<EndQuiz/>}/>
+    </Routes>
+  );
+}
 
-export default ScoreContainer;
+export default App;
+ the error says this:
 
-And this another .js:
-
-import React from "react";
-import { Box } from "@mui/material";
-import '../../styles/UserStats.css'
-
-const UserStats = () => {
-
-    return(
-    <div className="stats-container">
-        <div className="stats-grid-container">
-            <Box display="flex" justifyContent = "center" alignItems = "center" height = "100%" width="100%">
-                <div className="stats-grid">
-                    <div className="stats-cell">
-                        <ul>
-                            <li style={{
-                                color: "#6137E3"
-                            }}>10</li>
-                            Total questions
-                        </ul>
-                    </div>
-                    <div className="stats-cell">
-                        <ul>
-                            <li style={{
-                                color: "#6137E3"
-                            }}>70%</li>
-                            Success rate
-                        </ul>
-                    </div>
-                    <div className="stats-cell">
-                        <ul>
-                            <li style={{
-                                color: "#EE0808"
-                            }}>03</li>
-                            Wrong
-                        </ul>
-                    </div>
-                    <div className="stats-cell">
-                        <ul>
-                            <li style={{
-                                color: "#08D74D"
-                            }}>07</li>
-                            Correct
-                        </ul>
-                    </div>
-                </div>
-            </Box>
-        </div>
-    </div>);
-};
-
-export default UserStats;
-
-i need to extract the numbe rof questions putted, the correct answers responded, the wrong answers responded , please
+ Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+printWarning @ react-dom.development.js:88
+react-dom.development.js:88 Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
+    at Questions (http://localhost:3000/static/js/bundle.js:1332:81)
+    at RenderedRoute (http://localhost:3000/static/js/bundle.js:62419:5)
+    at Routes (http://localhost:3000/static/js/bundle.js:62970:5)
+    at App
+    at Router (http://localhost:3000/static/js/bundle.js:62908:15)
+    at BrowserRouter (http://localhost:3000/static/js/bundle.js:61158:5)

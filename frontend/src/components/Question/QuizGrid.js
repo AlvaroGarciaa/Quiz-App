@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState/*, useEffect*/ } from "react";
 import { Box } from "@mui/system";
 import { shuffle } from "./Shuffle.js"; // Importar la función shuffle
 import "../../styles/QuizGrid.css";
-const axios = require("axios");
+//const axios = require("axios");
 
 const QuizGrid = ({ answered, handleAnswer, isCorrect }) => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -15,7 +15,7 @@ const QuizGrid = ({ answered, handleAnswer, isCorrect }) => {
     { id: 4, text: "Option 4", isCorrect: false },
   ];
 
-  const randomIndex = Math.floor(Math.random() * options.length);
+  //const randomIndex = Math.floor(Math.random() * options.length);
   const shuffledOptions = shuffle(options); // Opciones mezcladas
 
   const handleOptionClick = (option) => {
