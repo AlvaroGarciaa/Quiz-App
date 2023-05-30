@@ -1,11 +1,11 @@
 import React from "react";
 import '../../styles/ScoreContainer.css'
 
-const ScoreContainer = () => {
+const ScoreContainer = ({score}) => {
 
     return(
         <div className="score-display">
-            <p className="score">1500</p>
+            <p className="score">{score}</p>
         </div>
     );
 };

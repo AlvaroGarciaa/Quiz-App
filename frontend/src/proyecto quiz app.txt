@@ -1,16 +1,8 @@
-Okay, ahora:
+Hi, I need your help
 
-+Que cuando pase a la siguiente pregunta el reloj se reinicie a 30 de nuevo
-+Que la opcion que eligas TODOS los botones se pongan en rojo (incorrecto) o verde (correcto),incluyendo el recuadro de la pagina de QuizPage del .css del ..questions-container, background.
-+Que el nombre que pongas en el PatternProPage.js se muestre en el Scoreboard.js
-+y ya, por favor
-
-PatternProPage.js:
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { StyledEngineProvider, Alert } from '@mui/material';
+import {TextField, Button, StyledEngineProvider, Alert } from '@mui/material';
 import '../styles/PatternProPage.css';
 
 function PatternProPage() {
@@ -118,28 +110,9 @@ function PatternProPage() {
 
 export default PatternProPage;
 
-
-Scoreboard.js:
-import React from 'react';
-import '../../styles/QuizScoreboard.css';
-
-const QuizScoreboard = ({ score, name }) => {
-  return (
-    <div className='container'>
-      <div className='username'>{name}</div>
-      <div className='score-container'>
-        <p>{score}</p>
-      </div>
-    </div>
-  );
-};
-
-export default QuizScoreboard;
-Questions.js:
-
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Button from "@mui/material/Button";
+import {Button} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import QuizGrid from "../components/Question/QuizGrid.js";
 import QuizScoreboard from "../components/Question/QuizScoreboard.js";
@@ -170,7 +143,7 @@ const Questions = () => {
   useEffect(() => {
     if (currentQuestion > numQuestions) {
       // Quiz completed
-      navigate("/");
+      navigate("/finish");
     }
   }, [currentQuestion, numQuestions, navigate]);
   useEffect(() => {
@@ -182,7 +155,7 @@ const Questions = () => {
     setIsCorrect(isCorrect);
 
     if (isCorrect) {
-      setScore(score + 100);
+      setScore(score + 100 * timer);
     }
   };
 
@@ -190,6 +163,10 @@ const Questions = () => {
     setCurrentQuestion(currentQuestion + 1);
     setAnswered(false);
     setIsCorrect(null);
+    const questionsContainer = document.querySelector(".questions-container");
+    questionsContainer.classList.remove("correct");
+    questionsContainer.classList.remove("incorrect");
+    
   };
 
   const handleFinishQuiz = () => {
@@ -223,17 +200,14 @@ const Questions = () => {
           }}
         />
       </div>
-      <div className="questions-container">
-        <div className="title">What is a design pattern?</div>
         <QuizGrid
           answered={answered}
           handleAnswer={handleAnswer}
           isCorrect={isCorrect}
         />
-      </div>
       <div className="controls-container">
         <div>
-          <QuizScoreboard score={score} />
+          <QuizScoreboard score={score} name = {quizName}/>
         </div>
         <div className="button-container">
           {answered ? (
@@ -277,226 +251,145 @@ const Questions = () => {
 
 export default Questions;
 
+import React from "react";
+import { Button } from "@mui/material";
+import {useNavigate} from "react-router-dom";
+import ScoreContainer from "../components/EndQuiz/ScoreContainer";
+import UserStats from "../components/EndQuiz/UserStats";
+import '../styles/EndQuiz.css'
 
 
+const EndQuiz = () => {
+    const navigate = useNavigate();
+    
+      const RetakeQuiz = () => {
+        navigate("/quiz");
+      };
+      const GoLeaderboard = () => {
+        navigate("/");
+      };
+      const TakeAnotherQuiz = () => {
+        navigate("/");
+      };
 
-QuizTimer.js:
-import React from 'react';
-import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-import '../../styles/Timer.css';
-
-const QuizTimer = ({ duration, onComplete }) => {
-  return (
-    <div className='quiz-timer-container'>
-      <div className='quiz-timer'>
-        <CountdownCircleTimer
-          isPlaying
-          duration={duration}
-          onComplete={onComplete}
-          colors={[['#6137E3']]}
-          size={100}
-          strokeWidth={10}
-          trailColor='none'
-        >
-          {({ remainingTime }) => <div className='timer'>{remainingTime}</div>}
-        </CountdownCircleTimer>
-        <svg className='progress-ring' width='100%' height='100%'>
-          <circle className='progress-ring-background' r='95' cx='100' cy='100' />
-        </svg>
-      </div>
-    </div>
-  );
-};
-
-export default QuizTimer;
-
-
-QuizGrid.js:
-import React, { useState } from "react";
-import { Box } from "@mui/system";
-import { shuffle } from "./Shuffle.js"; // Importar la función shuffle
-import "../../styles/QuizGrid.css";
-
-const QuizGrid = ({ answered, handleAnswer, isCorrect }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const options = [
-    { id: 1, text: "Option 1", isCorrect: false },
-    { id: 2, text: "Option 2", isCorrect: false },
-    { id: 3, text: "Option 3", isCorrect: false },
-    { id: 4, text: "Option 4", isCorrect: false },
-  ];
-
-  const randomIndex = Math.floor(Math.random() * options.length);
-  options[randomIndex].isCorrect = true;
-  const shuffledOptions = shuffle(options); // Opciones mezcladas
-
-  const handleOptionClick = (option) => {
-    if (answered) return;
-    setSelectedOption(option);
-    handleAnswer(option.isCorrect);
-  };
-  
-
-  return (
-    <div className="quiz-grid-container">
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        height="100%"
-        width="100%"
-      >
-        <div className="quiz-grid">
-          {shuffledOptions.map((option) => (
-            <div
-              key={option.id}
-              className={`quiz-cell ${
-                selectedOption &&
-                selectedOption.id === option.id &&
-                (selectedOption.isCorrect ? "correct" : "incorrect")
-              }`}              
-              onClick={() => handleOptionClick(option)}
-            >
-              {option.text}
-            </div>
-          ))}
+    return(
+        <div className="end-quiz">
+            <ScoreContainer/>
+            <UserStats/>
+            <div className="buttons-container">
+                <Button
+                variant="contained"
+                disableElevation
+                sx={{
+                    background: "#6137E3",
+                    textTransform: "none",
+                    paddingTop: "0.5rem",
+                    paddingBottom: "0.5rem",
+                    fontSize: "1.2rem",
+                    fontFamily: "Inter",
+                    fontWeight: 700,
+                    borderRadius: "0.9rem"
+                }}onClick={RetakeQuiz}>Retake quiz</Button>
+                <Button
+                variant="contained"
+                disableElevation
+                sx={{
+                    background: "#FFC107",
+                    textTransform: "none",
+                    paddingTop: "0.5rem",
+                    paddingBottom: "0.5rem",
+                    fontSize: "1.2rem",
+                    fontFamily: "Inter",
+                    fontWeight: 700,
+                    borderRadius: "0.9rem"
+                }}onClick={GoLeaderboard}>Leaderboard</Button>
+                <Button
+                variant="contained"
+                disableElevation
+                sx={{
+                    background: "#EE0808",
+                    textTransform: "none",
+                    paddingTop: "0.5rem",
+                    paddingBottom: "0.5rem",
+                    fontSize: "1.2rem",
+                    fontFamily: "Inter",
+                    fontWeight: 700,
+                    borderRadius: "0.9rem"
+                }}onClick={TakeAnotherQuiz}>Start another quiz</Button>
+            </div> 
         </div>
-      </Box>
-    </div>
-  );
+    );
 };
 
-export default QuizGrid;
+export default EndQuiz;
 
+I need that in the next .js:
 
+import React from "react";
+import '../../styles/ScoreContainer.css'
 
-QuizGrid.css:
-.quiz-grid-container {
-  width: 100%;
-  height: 100%;
-}
+const ScoreContainer = () => {
 
-.quiz-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 1rem;
-  width: 100%;
-  height: 100%;
-}
+    return(
+        <div className="score-display">
+            <p className="score">1500</p>
+        </div>
+    );
+};
 
-.quiz-cell {
-  border: 1.5px solid #6137E3;
-  padding: 2.5rem;
-  border-radius: 20px;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  font-family: 'Inter';
-}
+export default ScoreContainer;
 
-.quiz-cell:hover {
-  background-color: #6137E3;
-  color: #F8F8FF;
-  font-family: 'Inter';
-}
+And this another .js:
 
-.quiz-cell.correct {
-  background-color: green;
-  color: white;
-}
+import React from "react";
+import { Box } from "@mui/material";
+import '../../styles/UserStats.css'
 
-.quiz-cell.incorrect {
-  background-color: red;
-  color: white;
-}
+const UserStats = () => {
 
+    return(
+    <div className="stats-container">
+        <div className="stats-grid-container">
+            <Box display="flex" justifyContent = "center" alignItems = "center" height = "100%" width="100%">
+                <div className="stats-grid">
+                    <div className="stats-cell">
+                        <ul>
+                            <li style={{
+                                color: "#6137E3"
+                            }}>10</li>
+                            Total questions
+                        </ul>
+                    </div>
+                    <div className="stats-cell">
+                        <ul>
+                            <li style={{
+                                color: "#6137E3"
+                            }}>70%</li>
+                            Success rate
+                        </ul>
+                    </div>
+                    <div className="stats-cell">
+                        <ul>
+                            <li style={{
+                                color: "#EE0808"
+                            }}>03</li>
+                            Wrong
+                        </ul>
+                    </div>
+                    <div className="stats-cell">
+                        <ul>
+                            <li style={{
+                                color: "#08D74D"
+                            }}>07</li>
+                            Correct
+                        </ul>
+                    </div>
+                </div>
+            </Box>
+        </div>
+    </div>);
+};
 
-QuizPage.css:
-.page{
+export default UserStats;
 
-  background-color: #30313A;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  position: relative;
-} 
-
-.timer-container{
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-}
-
-.questions-container {
-  width: 90%;
-  background: #F8F8FF;
-  padding: 20px;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 28rem;
-}
-
-
-.title {
-  font-family: 'Inter';
-  font-size: 3rem;
-  padding: 2rem;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
-
-.quiz-grid-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto; 
-  width: 100%;
-  height: auto;  
-}
-
-.controls-container {
-  display: flex;
-  width: 90%;
-  margin-top: 1%;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.controls-container > * {
-  margin-left: -20px; /* Ignore left padding for content */
-}
-
-.exit-container{
-  display: flex;
-  width: 90%;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-.exit-container > * {
-  margin-left: -20px;
-}
-
-.button-container {
-  padding: 0;
-  margin: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-}
-
-.button-container > * {
-  margin-right: -20px;
-}
-
-pon todos los cambios en los codigos que te paso, por favor
+i need to extract the numbe rof questions putted, the correct answers responded, the wrong answers responded , please

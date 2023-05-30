@@ -2,7 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import '../../styles/UserStats.css'
 
-const UserStats = () => {
+const UserStats = ({numCorrect, numWrong, currentQuestion}) => {
 
     return(
     <div className="stats-container">
@@ -13,7 +13,7 @@ const UserStats = () => {
                         <ul>
                             <li style={{
                                 color: "#6137E3"
-                            }}>10</li>
+                            }}>{currentQuestion}</li>
                             Total questions
                         </ul>
                     </div>
@@ -21,7 +21,7 @@ const UserStats = () => {
                         <ul>
                             <li style={{
                                 color: "#6137E3"
-                            }}>70%</li>
+                            }}>{(currentQuestion-numWrong)*10}</li>
                             Success rate
                         </ul>
                     </div>
@@ -29,7 +29,7 @@ const UserStats = () => {
                         <ul>
                             <li style={{
                                 color: "#EE0808"
-                            }}>03</li>
+                            }}>{numWrong}</li>
                             Wrong
                         </ul>
                     </div>
@@ -37,7 +37,7 @@ const UserStats = () => {
                         <ul>
                             <li style={{
                                 color: "#08D74D"
-                            }}>07</li>
+                            }}>{numCorrect}</li>
                             Correct
                         </ul>
                     </div>

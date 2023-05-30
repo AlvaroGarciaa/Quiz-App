@@ -12,7 +12,7 @@
 }
 
 .quiz-cell {
-  border: 1.5px solid #6137E3;
+  border: 10px solid #6137E3;
   padding: 2.5rem;
   border-radius: 20px;
   align-items: center;
@@ -34,13 +34,12 @@
 
 .quiz-cell.selected:hover {
   border: none;
-  background: #F8F8FF;
+  background: #853aca;
 }
 
 .quiz-cell.nonselected:hover {
   border: none;
-  background: #F8F8FF;
-  background: rgba(248, 248, 255, 0.3);
+  background: #853aca;
   color: black;
 }
 
