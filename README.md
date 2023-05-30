@@ -32,3 +32,9 @@ Start the server
   npm run start
 ```
 
+## Tech Stack
+
+**Client:** ReactJS, CSS
+
+**Server:** Python (flask), MongoDB
+
