@@ -10,7 +10,7 @@ import "../styles/QuizPage.css";
 const Questions = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { numQuestions, quizName } = location.state || {};
+  const { numQuestions, quizName,randomquestions } = location.state || {};
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
@@ -18,6 +18,7 @@ const Questions = () => {
   const [timer, setTimer] = useState(30);
 
   useEffect(() => {
+    console.log(randomquestions)
     if (
       !location.state ||
       !location.state.numQuestions ||
@@ -88,6 +89,7 @@ const Questions = () => {
           answered={answered}
           handleAnswer={handleAnswer}
           isCorrect={isCorrect}
+          //item = {questions[0]}
         />
       <div className="controls-container">
         <div>

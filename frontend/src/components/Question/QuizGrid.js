@@ -3,7 +3,7 @@
   import { shuffle } from "./Shuffle.js"; // Importar la función shuffle
   import "../../styles/QuizGrid.css";
 
-  const QuizGrid = ({ answered, handleAnswer, isCorrect }) => {
+  const QuizGrid = ({ answered, handleAnswer, isCorrect,item }) => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [Correct, setCorrect] = useState(null);
 
@@ -28,7 +28,7 @@
 
     return (
     <div className={`questions-container ${Correct !== null ? (Correct ? "correct" : "incorrect") : ""}`}>
-      <div className="title">What is a design pattern?</div>
+      <div className="title">A</div>
         <div className="quiz-grid-container">
           <Box display="flex" justifyContent="center" alignItems="center" height="100%" width="100%">
             <div className="quiz-grid">

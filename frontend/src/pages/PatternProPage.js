@@ -47,11 +47,12 @@ function PatternProPage() {
           randomquestions.push(data[randomIndex]);
         }
       })
-      console.log(randomquestions)
+      //console.log(randomquestions)
       navigate('/quiz', {
         state: {
           numQuestions: parseInt(numQuestions),
-          quizName: name
+          quizName: name,
+          randomquestions:randomquestions
         }
       });
     }
