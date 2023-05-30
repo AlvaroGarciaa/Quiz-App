@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect/*, useRef*/ } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Button } from "@mui/material";
+import {Button} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import QuizGrid from "../components/Question/QuizGrid.js";
 import QuizScoreboard from "../components/Question/QuizScoreboard.js";
@@ -16,18 +16,6 @@ const Questions = () => {
   const [answered, setAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(null);
   const [timer, setTimer] = useState(30);
-  const [numCorrect, setNumCorrect] = useState(0);
-  const [numWrong, setNumWrong] = useState(0);
-
-  const [errors, setErrors] = useState({
-    numQuestions: false,
-    numCorrect: false,
-    numWrong: false,
-    score: false,
-    start: false
-  });
-
-  
 
   useEffect(() => {
     if (
@@ -42,20 +30,10 @@ const Questions = () => {
 
   useEffect(() => {
     if (currentQuestion > numQuestions) {
-      if (errors.numQuestions || errors.numCorrect || errors.numWrong || errors.score || !numQuestions || !numCorrect|| !numWrong || !score) {
-        setErrors({ ...errors, start: true });
-      } else {
       // Quiz completed
-      navigate("/finish", {
-        state: {
-          numQuestions: parseInt(numQuestions),
-          numCorrect: parseInt(numCorrect),
-          numWrong: parseInt(numWrong),
-          score:parseInt(score),
-        },
-      });
+      navigate("/finish");
     }
-}});
+  }, [currentQuestion, numQuestions, navigate]);
   useEffect(() => {
     setTimer(30);
   }, [currentQuestion]);
@@ -65,10 +43,7 @@ const Questions = () => {
     setIsCorrect(isCorrect);
 
     if (isCorrect) {
-      setScore(score + 100 * timer);
-      setNumCorrect(numCorrect + 1);
-    } else {
-      setNumWrong(numWrong + 1);
+      setScore(score + 100);
     }
   };
 
@@ -76,9 +51,6 @@ const Questions = () => {
     setCurrentQuestion(currentQuestion + 1);
     setAnswered(false);
     setIsCorrect(null);
-    const questionsContainer = document.querySelector(".questions-container");
-    questionsContainer.classList.remove("correct");
-    questionsContainer.classList.remove("incorrect");
   };
 
   const handleFinishQuiz = () => {
@@ -112,14 +84,14 @@ const Questions = () => {
           }}
         />
       </div>
-      <QuizGrid
-        answered={answered}
-        handleAnswer={handleAnswer}
-        isCorrect={isCorrect}
-      />
+        <QuizGrid
+          answered={answered}
+          handleAnswer={handleAnswer}
+          isCorrect={isCorrect}
+        />
       <div className="controls-container">
         <div>
-          <QuizScoreboard score={score} name={quizName} />
+          <QuizScoreboard score={score} name = {quizName}/>
         </div>
         <div className="button-container">
           {answered ? (
