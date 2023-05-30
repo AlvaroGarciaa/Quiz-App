@@ -38,3 +38,9 @@ Start the server
 
 **Server:** Python (flask), MongoDB
 
+## Classes and methods
+
+## Patterns used
+
+
+
