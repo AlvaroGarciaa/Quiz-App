@@ -22,25 +22,22 @@
 }
 
 .quiz-cell.selected {
-  border: none;
+  border: 1.5px solid #6137E3;
   background: #F8F8FF;
 }
 
 .quiz-cell.nonselected {
-  border: none;
-  background: #F8F8FF;
-  background: rgba(248, 248, 255, 0.3);
+  border: 1.5px solid #6137E3;
 }
 
 .quiz-cell.selected:hover {
   border: none;
-  background: #F8F8FF;
+  background: #6137E3;
 }
 
 .quiz-cell.nonselected:hover {
   border: none;
-  background: #F8F8FF;
-  background: rgba(248, 248, 255, 0.3);
+  background: #6137E3;
   color: black;
 }
 
@@ -75,7 +72,7 @@
 
 .title {
   font-family: 'Inter';
-  font-size: 3rem;
+  font-size: 2.5rem;
   padding: 2rem;
   font-weight: 600;
   display: flex;
