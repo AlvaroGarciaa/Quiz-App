@@ -5,3 +5,30 @@ CodeQuizPro is an application of questions that will help you reinforce your kno
 ## Architecture
 
 ![App Screenshot](https://github.com/AlvaroGarciaa/Quiz-App/blob/main/Assets/Architecture.jpeg)
+
+## Run Locally
+
+Clone the project
+
+```bash
+git clone https://github.com/AlvaroGarciaa/Quiz-App.git
+```
+
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+
