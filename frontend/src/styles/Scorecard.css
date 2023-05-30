@@ -1,0 +1,45 @@
+.scorecard-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background: #EEDCF6;
+    border-radius: 20px;
+    width: 70%;
+    height: 15%;
+    gap: 5px;
+    box-shadow: 0px 4px 4px rgb(218, 191, 230)
+}
+
+.place{
+    background: #6137E3;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: 'Inter';
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.user{
+    font-family: 'Inter';
+    font-weight: 700;
+    font-size: 1.5rem;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-score{
+    font-size: 1.5rem;
+    font-weight: 700;
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
