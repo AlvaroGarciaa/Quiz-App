@@ -40,7 +40,7 @@ function PatternProPage() {
       setErrors({ ...errors, start: true });
     } else {
       let randomquestions = []
-      fetch(`hola`)
+      fetch(`${API}/get_questions`)
       .then(response =>response.json())
       .then(data =>{
         for (let i = 0; i < parseInt(numQuestions)+1; i++) {
