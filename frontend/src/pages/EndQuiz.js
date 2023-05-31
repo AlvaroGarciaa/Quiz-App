@@ -1,18 +1,17 @@
-import React, { useEffect,  } from "react";
+import React, { useEffect  } from "react";
 import { Button } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import ScoreContainer from "../components/EndQuiz/ScoreContainer";
 import UserStats from "../components/EndQuiz/UserStats";
-
 import "../styles/EndQuiz.css";
 
 const EndQuiz = () => {
   const API = process.env.REACT_APP_API;
   const navigate = useNavigate();
   const location = useLocation();
-const randomquestions= location.state?.randomquestions;
-const quizName = location.state?.quizName;
-const score = location.state?.score;
+  const randomquestions= location.state?.randomquestions;
+  const quizName = location.state?.quizName;
+  const score = location.state?.score;
   const numQuestions = location?.state?.numQuestions;
   const wrongAnswers = location?.state?.wrongAnswers;
   const correctAnswers = location?.state?.correctAnswers;
