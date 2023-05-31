@@ -4,6 +4,7 @@ import {TextField, Button, StyledEngineProvider, Alert } from '@mui/material';
 import '../styles/PatternProPage.css';
 
 function PatternProPage() {
+  const API = process.env.REACT_APP_API
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [numQuestions, setNumQuestions] = useState('');
@@ -38,12 +39,23 @@ function PatternProPage() {
     if (errors.name || errors.questions || !numQuestions || !name) {
       setErrors({ ...errors, start: true });
     } else {
-      navigate('/quiz', {
-        state: {
-          numQuestions: parseInt(numQuestions),
-          quizName: name
+      let randomquestions = []
+      fetch(`${API}/get_questions`)
+      .then(response =>response.json())
+      .then(data =>{
+        for (let i = 0; i < parseInt(numQuestions)+1; i++) {
+          const randomIndex = Math.floor(Math.random() * data.length);
+          randomquestions.push(data[randomIndex]);
         }
-      });
+        navigate('/quiz', {
+          state: {
+            numQuestions: parseInt(numQuestions),
+            quizName: name,
+            randomquestions:randomquestions
+          }
+        });
+      })
+      
     }
   };
 

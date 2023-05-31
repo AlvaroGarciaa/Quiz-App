@@ -1,22 +1,30 @@
-import React, { useState/*, useEffect*/ } from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/system";
-import { shuffle } from "./Shuffle.js"; // Importar la función shuffle
+import { Collapse, Alert , IconButton, Button } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import "../../styles/QuizGrid.css";
-//const axios = require("axios");
 
-const QuizGrid = ({ answered, handleAnswer, isCorrect }) => {
+const QuizGrid = ({ answered, handleAnswer, isCorrect, item }) => {
+  const [open, setOpen] = React.useState(true);
   const [selectedOption, setSelectedOption] = useState(null);
   const [Correct, setCorrect] = useState(null);
 
-  const options = [
-    { id: 1, text: "Option 1", isCorrect: false },
-    { id: 2, text: "Option 2", isCorrect: false },
-    { id: 3, text: "Option 3", isCorrect: false },
-    { id: 4, text: "Option 4", isCorrect: false },
+  let options = [
+    { id: 1, text: item.answers.a, isCorrect: false },
+    { id: 2, text: item.answers.b, isCorrect: false },
+    { id: 3, text: item.answers.c, isCorrect: false },
+    { id: 4, text: item.answers.d, isCorrect: false },
   ];
 
-  //const randomIndex = Math.floor(Math.random() * options.length);
-  const shuffledOptions = shuffle(options); // Opciones mezcladas
+  if (item.correct_answer === "a") {
+    options[0].isCorrect = true;
+  } else if (item.correct_answer === "b") {
+    options[1].isCorrect = true;
+  } else if (item.correct_answer === "c") {
+    options[2].isCorrect = true;
+  } else {
+    options[3].isCorrect = true;
+  }
 
   const handleOptionClick = (option) => {
     if (answered) return;
@@ -25,13 +33,56 @@ const QuizGrid = ({ answered, handleAnswer, isCorrect }) => {
     setCorrect(isAnswerCorrect);
     handleAnswer(isAnswerCorrect);
     const questionsContainer = document.querySelector(".questions-container");
+    const selectedAnswer = document.querySelector(".quiz-cell");
+    selectedAnswer.classList.add("nonselected");
     questionsContainer.classList.add("correct");
     questionsContainer.classList.add("incorrect");
   };
 
+  const explanationShow = (option) => {
+    return (
+      <div>
+        <Box sx={{ width: "100%" }}>
+          <Collapse in={open}>
+            <Alert
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              Explanation: {item.explanation}
+            </Alert>
+          </Collapse>
+          <Button
+            disabled={open}
+            variant="outlined"
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            Re-open
+          </Button>
+        </Box>
+      </div>
+    );
+  };
+
   return (
-    <div className={`questions-container ${Correct !== null ? (Correct ? "correct" : "incorrect") : ""}`}>
-      <div className="title">What is a</div>
+    <div
+      className={`questions-container ${
+        Correct !== null ? (Correct ? "correct" : "incorrect") : ""
+      }`}
+    >
+      <div className="title">{item.question}</div>
       <div className="quiz-grid-container">
         <Box
           display="flex"
@@ -41,7 +92,7 @@ const QuizGrid = ({ answered, handleAnswer, isCorrect }) => {
           width="100%"
         >
           <div className="quiz-grid">
-            {shuffledOptions.map((option) => (
+            {options.map((option) => (
               <div
                 key={option.id}
                 className={`quiz-cell ${
@@ -49,7 +100,10 @@ const QuizGrid = ({ answered, handleAnswer, isCorrect }) => {
                     ? "selected"
                     : "nonselected"
                 }`}
-                onClick={() => handleOptionClick(option)}
+                onClick={() => {
+                  handleOptionClick(option);
+                  explanationShow(option);
+                }}
               >
                 {option.text}
               </div>

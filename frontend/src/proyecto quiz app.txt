@@ -1,370 +1,151 @@
-Hi, I need your help
+Hola necesito ayuda en este código,
 
-Questions.js:
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Button } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import QuizGrid from "../components/Question/QuizGrid.js";
-import QuizScoreboard from "../components/Question/QuizScoreboard.js";
-import Timer from "../components/Question/QuizTimer.js";
-import "../styles/QuizPage.css";
+PatternProPage.js:
 
-const Questions = () => {
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {TextField, Button, StyledEngineProvider, Alert } from '@mui/material';
+import '../styles/PatternProPage.css';
+
+function PatternProPage() {
+  const API = process.env.API
   const navigate = useNavigate();
-  const location = useLocation();
-  const { numQuestions, quizName } = location.state || {};
-  const [currentQuestion, setCurrentQuestion] = useState(1);
-  const [score, setScore] = useState(0);
-  const [answered, setAnswered] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(null);
-  const [timer, setTimer] = useState(30);
-  const [numCorrect, setNumCorrect] = useState(0);
-  const [numWrong, setNumWrong] = useState(0);
-
+  const [name, setName] = useState('');
+  const [numQuestions, setNumQuestions] = useState('');
   const [errors, setErrors] = useState({
-    numQuestions: false,
-    numCorrect: false,
-    numWrong: false,
-    score: false,
+    name: false,
+    questions: false,
     start: false
   });
 
-  
-
-  useEffect(() => {
-    if (
-      !location.state ||
-      !location.state.numQuestions ||
-      !location.state.quizName
-    ) {
-      // Redirect if state is not provided
-      navigate("/");
-    }
-  }, [location.state, navigate]);
-
-  useEffect(() => {
-    if (currentQuestion > numQuestions) {
-      if (errors.numQuestions || errors.numCorrect || errors.numWrong || errors.score || !numQuestions || !numCorrect|| !numWrong || !score) {
-        setErrors({ ...errors, start: true });
-      } else {
-      // Quiz completed
-      navigate("/finish", {
-        state: {
-          numQuestions: parseInt(numQuestions),
-          numCorrect: parseInt(numCorrect),
-          numWrong: parseInt(numWrong),
-          score:parseInt(score),
-        },
-      });
-    }
-}});
-  useEffect(() => {
-    setTimer(30);
-  }, [currentQuestion]);
-
-  const handleAnswer = (isCorrect) => {
-    setAnswered(true);
-    setIsCorrect(isCorrect);
-
-    if (isCorrect) {
-      setScore(score + 100 * timer);
-      setNumCorrect(numCorrect + 1);
+  const handleNameChange = (e) => {
+    const v = e.target.value;
+    if (!/^[0-9a-zA-Z]{1,8}$/.test(v)) {
+      setErrors({ ...errors, name: true });
     } else {
-      setNumWrong(numWrong + 1);
+      setErrors({ ...errors, name: false });
+      setName(v);
     }
   };
 
-  const handleNextQuestion = () => {
-    setCurrentQuestion(currentQuestion + 1);
-    setAnswered(false);
-    setIsCorrect(null);
-    const questionsContainer = document.querySelector(".questions-container");
-    questionsContainer.classList.remove("correct");
-    questionsContainer.classList.remove("incorrect");
+  const handleNumQuestionsChange = (e) => {
+    const v = e.target.value;
+
+    if (!/^(?:[1-9]|10)$/.test(v)) {
+      setErrors({ ...errors, questions: true });
+    } else {
+      setErrors({ ...errors, questions: false });
+      setNumQuestions(v);
+    }
   };
 
-  const handleFinishQuiz = () => {
-    navigate("/");
-  };
-
-  return (
-    <div className="page">
-      <div className="exit-container">
-        <Button
-          sx={{
-            textTransform: "none",
-            color: "#A3A4AA",
-            fontWeight: 500,
-            fontFamily: "Inter",
-            fontSize: "1rem",
-          }}
-          startIcon={<CloseIcon />}
-          onClick={handleFinishQuiz}
-        >
-          Finish quiz
-        </Button>
-      </div>
-      <div className="timer-container">
-        <Timer
-          duration={timer}
-          onComplete={() => {
-            if (!answered) {
-              handleAnswer(false);
-            }
-          }}
-        />
-      </div>
-      <QuizGrid
-        answered={answered}
-        handleAnswer={handleAnswer}
-        isCorrect={isCorrect}
-      />
-      <div className="controls-container">
-        <div>
-          <QuizScoreboard score={score} name={quizName} />
-        </div>
-        <div className="button-container">
-          {answered ? (
-            <Button
-              variant="contained"
-              sx={{
-                height: "100%",
-                backgroundColor: "#6137E3",
-                textTransform: "none",
-                fontFamily: "Inter",
-                fontWeight: 700,
-                fontSize: "1.5rem",
-                borderRadius: "1rem",
-              }}
-              onClick={handleNextQuestion}
-            >
-              Next question
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              sx={{
-                height: "100%",
-                backgroundColor: "#6137E3",
-                textTransform: "none",
-                fontFamily: "Inter",
-                fontWeight: 700,
-                fontSize: "1.5rem",
-                borderRadius: "1rem",
-              }}
-              disabled={!answered}
-            >
-              Submit
-            </Button>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default Questions;
-
-QuizGrid.js:
-import React, { useState/*, useEffect*/ } from "react";
-import { Box } from "@mui/system";
-import { shuffle } from "./Shuffle.js"; // Importar la función shuffle
-import "../../styles/QuizGrid.css";
-//const axios = require("axios");
-
-const QuizGrid = ({ answered, handleAnswer, isCorrect }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [Correct, setCorrect] = useState(null);
-
-  const options = [
-    { id: 1, text: "Option 1", isCorrect: false },
-    { id: 2, text: "Option 2", isCorrect: false },
-    { id: 3, text: "Option 3", isCorrect: false },
-    { id: 4, text: "Option 4", isCorrect: false },
-  ];
-
-  //const randomIndex = Math.floor(Math.random() * options.length);
-  const shuffledOptions = shuffle(options); // Opciones mezcladas
-
-  const handleOptionClick = (option) => {
-    if (answered) return;
-    setSelectedOption(option);
-    const isAnswerCorrect = option.isCorrect;
-    setCorrect(isAnswerCorrect);
-    handleAnswer(isAnswerCorrect);
-    const questionsContainer = document.querySelector(".questions-container");
-    questionsContainer.classList.add("correct");
-    questionsContainer.classList.add("incorrect");
+  const handleStartQuiz = () => {
+    if (errors.name || errors.questions || !numQuestions || !name) {
+      setErrors({ ...errors, start: true });
+    } else {
+      let randomquestions = []
+      fetch(`${API}/get_questions`)
+      .then(response =>response.json())
+      .then(data =>{
+        for (let i = 0; i < parseInt(numQuestions)+1; i++) {
+          const randomIndex = Math.floor(Math.random() * data.length);
+          randomquestions.push(data[randomIndex]);
+        }
+        navigate('/quiz', {
+          state: {
+            numQuestions: parseInt(numQuestions),
+            quizName: name,
+            randomquestions:randomquestions
+          }
+        });
+      })
+      
+    }
   };
 
   return (
-    <div className={`questions-container ${Correct !== null ? (Correct ? "correct" : "incorrect") : ""}`}>
-      <div className="title">What is a</div>
-      <div className="quiz-grid-container">
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          height="100%"
-          width="100%"
-        >
-          <div className="quiz-grid">
-            {shuffledOptions.map((option) => (
-              <div
-                key={option.id}
-                className={`quiz-cell ${
-                  selectedOption !== null && selectedOption.id === option.id
-                    ? "selected"
-                    : "nonselected"
-                }`}
-                onClick={() => handleOptionClick(option)}
-              >
-                {option.text}
-              </div>
-            ))}
+    <StyledEngineProvider>
+      <div className='page-container'>
+        <div className='content-container'>
+          <h1 className='page-title'>PatternPro</h1>
+          <div className='input-container'>
+            {errors.start && (
+              <Alert severity='error' variant='filled'>
+                Wrong information
+              </Alert>
+            )}
+            <TextField
+              error={errors.name}
+              fullWidth
+              variant='outlined'
+              label='Name'
+              onChange={handleNameChange}
+            />
+
+            <TextField
+              error={errors.questions}
+              fullWidth
+              type='number'
+              variant='outlined'
+              label='Number of questions'
+              onChange={handleNumQuestionsChange}
+              sx={{
+                fontFamily: 'Inter',
+                fontWeight: '700'
+              }}
+            />
           </div>
-        </Box>
+        </div>
+        <div className='button-container'>
+          <Button
+            onClick={handleStartQuiz}
+            variant='contained'
+            className='start-button'
+            sx={{
+              background: '#6137E3',
+              textTransform: 'none',
+              paddingTop: '0.5rem',
+              paddingBottom: '0.5rem',
+              fontSize: '2.5rem',
+              fontFamily: 'Inter',
+              fontWeight: 700,
+              borderRadius: '0.9rem',
+              width: '15%'
+            }}
+            disableElevation
+          >
+            Start
+          </Button>
+        </div>
       </div>
-    </div>
-  );
-};
-
-export default QuizGrid;
-
-For some reason after i finish my questions, the page starts to bug out i dont know why...
-can you help me find the error please, i am trying to pass this things to the page of /finish, but i dont know if i am correct this way 
-
-This is the page where u want to send it to...
-
-import React, { useEffect } from "react";
-import { Button } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
-import ScoreContainer from "../components/EndQuiz/ScoreContainer";
-import UserStats from "../components/EndQuiz/UserStats";
-import "../styles/EndQuiz.css";
-
-const EndQuiz = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { numWrong, numCorrect, numQuestions, score } = location.state || {};
-  useEffect(() => {
-    if (
-      !location.state ||
-      !location.state.numQuestions ||
-      !location.state.numCorrect ||
-      !location.state.numWrong ||
-      !location.state.score
-    ) {
-      // Redirect if state is not provided
-      navigate("/");
-    }
-  }, [location.state, navigate]);
-
-  const RetakeQuiz = () => {
-    navigate("/quiz");
-  };
-  const GoLeaderboard = () => {
-    navigate("/");
-  };
-  const TakeAnotherQuiz = () => {
-    navigate("/");
-  };
-
-  return (
-    <div className="end-quiz">
-      <ScoreContainer score={score} />
-      <UserStats
-        numWrong={numWrong}
-        currentQuestion={numQuestions}
-        numCorrect={numCorrect}
-      />
-      <div className="buttons-container">
-        <Button
-          variant="contained"
-          disableElevation
-          sx={{
-            background: "#6137E3",
-            textTransform: "none",
-            paddingTop: "0.5rem",
-            paddingBottom: "0.5rem",
-            fontSize: "1.2rem",
-            fontFamily: "Inter",
-            fontWeight: 700,
-            borderRadius: "0.9rem",
-          }}
-          onClick={RetakeQuiz}
-        >
-          Retake quiz
-        </Button>
-        <Button
-          variant="contained"
-          disableElevation
-          sx={{
-            background: "#FFC107",
-            textTransform: "none",
-            paddingTop: "0.5rem",
-            paddingBottom: "0.5rem",
-            fontSize: "1.2rem",
-            fontFamily: "Inter",
-            fontWeight: 700,
-            borderRadius: "0.9rem",
-          }}
-          onClick={GoLeaderboard}
-        >
-          Leaderboard
-        </Button>
-        <Button
-          variant="contained"
-          disableElevation
-          sx={{
-            background: "#EE0808",
-            textTransform: "none",
-            paddingTop: "0.5rem",
-            paddingBottom: "0.5rem",
-            fontSize: "1.2rem",
-            fontFamily: "Inter",
-            fontWeight: 700,
-            borderRadius: "0.9rem",
-          }}
-          onClick={TakeAnotherQuiz}
-        >
-          Start another quiz
-        </Button>
-      </div>
-    </div>
-  );
-};
-
-export default EndQuiz;
-
-
-and this is the app.js:
-
-import {Routes, Route} from 'react-router-dom';
-import PatternProPage from "./pages/PatternProPage.js";
-import QuizPage from "./pages/Questions.js";
-import EndQuiz from './pages/EndQuiz.js';
-
-function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<PatternProPage/>}/>
-      <Route path="/quiz" element={<QuizPage/>}/>
-      <Route path="/finish" element = {<EndQuiz/>}/>
-    </Routes>
+    </StyledEngineProvider>
   );
 }
 
-export default App;
- the error says this:
+export default PatternProPage;
 
- Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
-printWarning @ react-dom.development.js:88
-react-dom.development.js:88 Warning: Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render.
-    at Questions (http://localhost:3000/static/js/bundle.js:1332:81)
-    at RenderedRoute (http://localhost:3000/static/js/bundle.js:62419:5)
-    at Routes (http://localhost:3000/static/js/bundle.js:62970:5)
-    at App
-    at Router (http://localhost:3000/static/js/bundle.js:62908:15)
-    at BrowserRouter (http://localhost:3000/static/js/bundle.js:61158:5)
+
+.env:
+
+API= https://us-central1-tc3005b-a01752067.cloudfunctions.net
+
+Me ocurre este error:
+
+VM40:1 Uncaught (in promise) SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+Promise.then (async)		
+handleStartQuiz	@	PatternProPage.js:43
+callCallback	@	react-dom.development.js:4164
+invokeGuardedCallbackDev	@	react-dom.development.js:4213
+invokeGuardedCallback	@	react-dom.development.js:4277
+invokeGuardedCallbackAndCatchFirstError	@	react-dom.development.js:4291
+executeDispatch	@	react-dom.development.js:9041
+processDispatchQueueItemsInOrder	@	react-dom.development.js:9073
+processDispatchQueue	@	react-dom.development.js:9086
+dispatchEventsForPlugins	@	react-dom.development.js:9097
+(anonymous)	@	react-dom.development.js:9288
+batchedUpdates$1	@	react-dom.development.js:26140
+batchedUpdates	@	react-dom.development.js:3991
+dispatchEventForPluginEventSystem	@	react-dom.development.js:9287
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay	@	react-dom.development.js:6465
+dispatchEvent	@	react-dom.development.js:6457
+dispatchDiscreteEvent

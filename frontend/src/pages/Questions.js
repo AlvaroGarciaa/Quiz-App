@@ -1,6 +1,6 @@
-import React, { useState, useEffect/*, useRef*/ } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {Button} from "@mui/material";
+import { Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import QuizGrid from "../components/Question/QuizGrid.js";
 import QuizScoreboard from "../components/Question/QuizScoreboard.js";
@@ -10,12 +10,27 @@ import "../styles/QuizPage.css";
 const Questions = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { numQuestions, quizName } = location.state || {};
+  const { numQuestions, quizName, randomquestions } = location.state || {};
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(null);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [wrongAnswers, setWrongAnswers] = useState(0);
   const [timer, setTimer] = useState(30);
+  const [key, setKey] = useState(0);
+  const [counter, setCounter] = useState(30);
+
+  useEffect(() => {
+    const timerIn = setInterval(() => {
+      setCounter((prevCounter) => prevCounter - 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(timerIn);
+    };
+  }, []);
+
 
   useEffect(() => {
     if (
@@ -31,11 +46,33 @@ const Questions = () => {
   useEffect(() => {
     if (currentQuestion > numQuestions) {
       // Quiz completed
-      navigate("/finish");
+
+      navigate("/finish", {
+        state: {
+          quizName: quizName,
+          score: score,
+          numQuestions: numQuestions,
+          wrongAnswers: wrongAnswers,
+          correctAnswers: correctAnswers,
+          randomquestions:randomquestions,
+        },
+      });
     }
-  }, [currentQuestion, numQuestions, navigate]);
+  }, [
+    currentQuestion,
+    numQuestions,
+    navigate,
+    score,
+    correctAnswers,
+    wrongAnswers,
+    quizName,
+    randomquestions,
+  ]);
+
   useEffect(() => {
     setTimer(30);
+    setCounter(30);
+    setKey((prevKey) => prevKey + 1);
   }, [currentQuestion]);
 
   const handleAnswer = (isCorrect) => {
@@ -43,7 +80,10 @@ const Questions = () => {
     setIsCorrect(isCorrect);
 
     if (isCorrect) {
-      setScore(score + 100);
+      setScore(score + 100 + counter);
+      setCorrectAnswers(correctAnswers + 1);
+    } else {
+      setWrongAnswers((prevValue) => prevValue + 1);
     }
   };
 
@@ -51,6 +91,12 @@ const Questions = () => {
     setCurrentQuestion(currentQuestion + 1);
     setAnswered(false);
     setIsCorrect(null);
+    const questionsContainer = document.querySelector(".questions-container");
+    const selectedAnswer = document.querySelector(".quiz-cell");
+    
+    selectedAnswer.classList.remove("nonselected");
+    questionsContainer.classList.remove("correct");
+    questionsContainer.classList.remove("incorrect");
   };
 
   const handleFinishQuiz = () => {
@@ -76,6 +122,7 @@ const Questions = () => {
       </div>
       <div className="timer-container">
         <Timer
+          key={key}
           duration={timer}
           onComplete={() => {
             if (!answered) {
@@ -84,14 +131,16 @@ const Questions = () => {
           }}
         />
       </div>
-        <QuizGrid
-          answered={answered}
-          handleAnswer={handleAnswer}
-          isCorrect={isCorrect}
-        />
+      <QuizGrid
+        key={key}
+        answered={answered}
+        handleAnswer={handleAnswer}
+        isCorrect={isCorrect}
+        item={randomquestions[currentQuestion - 1]}
+      />
       <div className="controls-container">
         <div>
-          <QuizScoreboard score={score} name = {quizName}/>
+          <QuizScoreboard score={score} name={quizName} />
         </div>
         <div className="button-container">
           {answered ? (

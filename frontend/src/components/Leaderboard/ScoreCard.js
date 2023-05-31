@@ -2,18 +2,18 @@ import React from "react";
 import '../../styles/Scorecard.css'
 
 
-const ScoreCard = () => {
+const ScoreCard = ({place, name, score}) => {
 
     return(
         <div className="scorecard-container">
             <div className="place">
-                1
+                {place}
             </div>
             <div className="user">
-                    Juan
+                {name}
             </div>
             <div className="user-score">
-                    1000
+                {score}
             </div>
         </div>
     )
