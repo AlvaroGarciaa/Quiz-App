@@ -69,5 +69,9 @@ Unit tests were also performed to verify the proper registration of blueprints a
 ## Authors
 
 - [Diego Mellado](https://github.com/m3llad0)
+- [Josué Villegas](https://github.com/JosueBVN)
+- [Adrián Bravo](https://github.com/Adrian101-hnd)
+- [Alan Martinez](https://github.com/AlanSaid1)
+- [Álvaro Enrique](https://github.com/AlvaroGarciaa)
 
 
