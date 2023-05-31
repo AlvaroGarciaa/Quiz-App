@@ -4,7 +4,6 @@ import {TextField, Button, StyledEngineProvider, Alert } from '@mui/material';
 import '../styles/PatternProPage.css';
 
 function PatternProPage() {
-  const API = process.env.API
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [numQuestions, setNumQuestions] = useState('');
@@ -40,7 +39,7 @@ function PatternProPage() {
       setErrors({ ...errors, start: true });
     } else {
       let randomquestions = []
-      fetch(`${API}/get_questions`)
+      fetch(`hola`)
       .then(response =>response.json())
       .then(data =>{
         for (let i = 0; i < parseInt(numQuestions)+1; i++) {

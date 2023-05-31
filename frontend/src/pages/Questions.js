@@ -44,13 +44,12 @@ const Questions = () => {
   }, [location.state, navigate]);
 
   useEffect(() => {
-    console.log(currentQuestion);
-    console.log(numQuestions);
     if (currentQuestion > numQuestions) {
       // Quiz completed
 
       navigate("/finish", {
         state: {
+          quizName: quizName,
           score: score,
           numQuestions: numQuestions,
           wrongAnswers: wrongAnswers,
@@ -65,6 +64,7 @@ const Questions = () => {
     score,
     correctAnswers,
     wrongAnswers,
+    quizName,
   ]);
 
   useEffect(() => {
