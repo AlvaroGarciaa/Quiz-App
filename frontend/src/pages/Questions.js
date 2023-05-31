@@ -61,6 +61,7 @@ const Questions = () => {
                     numQuestions: numQuestions,
                     wrongAnswers: wrongAnswers,
                     correctAnswers: correctAnswers,
+                    randomquestions: randomquestions
                 },
             });
         }
@@ -72,6 +73,7 @@ const Questions = () => {
         correctAnswers,
         wrongAnswers,
         quizName,
+        randomquestions
     ]);
 
     useEffect(() => {
