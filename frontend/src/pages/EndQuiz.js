@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import ScoreContainer from "../components/EndQuiz/ScoreContainer";
@@ -7,6 +7,7 @@ import UserStats from "../components/EndQuiz/UserStats";
 import "../styles/EndQuiz.css";
 
 const EndQuiz = () => {
+  const API = process.env.REACT_APP_API;
   const navigate = useNavigate();
   const location = useLocation();
   const quizName = location.state?.score;
@@ -27,7 +28,7 @@ const EndQuiz = () => {
     } else {
       let randomquestions = [];
       fetch(
-        `hola`
+        `${API}/get_questions`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -47,11 +48,42 @@ const EndQuiz = () => {
   };
 
   const GoLeaderboard = () => {
-    navigate("/");
+    navigate("/leaderboard");
   };
   const TakeAnotherQuiz = () => {
     navigate("/");
   };
+
+  useEffect(() => {
+    const postScore = async () => {
+      try {
+        const parsedScore = parseInt(score);
+        if (!isNaN(parsedScore)) {
+          const response = await fetch(
+            `${API}/new_score`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ quizName, score: parsedScore }),
+            }
+          );
+          if (response.ok) {
+            // Lógica adicional si es necesario
+          } else {
+            throw new Error("Error en la respuesta de la petición POST");
+          }
+        } else {
+          throw new Error("El valor del score no es un número válido");
+        }
+      } catch (error) {
+        console.error("Error al enviar los datos:", error);
+      }
+    };
+
+    postScore();
+  }, [quizName, score]);
 
   return (
     <div className="end-quiz">
