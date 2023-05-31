@@ -8,7 +8,7 @@ import '../styles/Leaderboard.css';
 const Leaderboard = () => {
   const navigate = useNavigate();
   function redirigirPaginaAnterior() {
-    navigate.back();
+    navigate(-1);
   }
   
   const [score, setScore] = useState([]);
