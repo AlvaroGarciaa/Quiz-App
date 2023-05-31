@@ -64,9 +64,13 @@ Unit tests were also performed to verify the proper registration of blueprints a
 
 ## Tech Stack
 
-**Client:** ReactJS, CSS
+**User view:**
+<br><br><code><img height="50" alt="javascript" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/javascript/javascript.png"></code>
+<code><img height="50" alt="react" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png"></code>
 
-**Server:** Python (flask), MongoDB
+**Server:**
+<br><br><code><img height="50" alt="flask" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/flask/flask.png"></code>
+<code><img height="50" alt="mongo" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/mongodb/mongodb.png"></code>
 
 ## Authors
 
