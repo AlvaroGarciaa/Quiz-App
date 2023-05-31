@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { Button } from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ScoreCard from "../components/Leaderboard/ScoreCard";
 import '../styles/Leaderboard.css';
 
 const Leaderboard = () => {
-  const API = process.env.REACT_APP_API;
+  const navigate = useNavigate();
+  function redirigirPaginaAnterior() {
+    navigate(-1);
+  }
+  
   const [score, setScore] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${API}/getTop10`);
+        const response = await fetch(`https://us-central1-tc3005b-a01752067.cloudfunctions.net/getTop10`);
         if (response.ok) {
           const data = await response.json();
           const slicedData = data.slice(0, 5);
@@ -39,6 +44,8 @@ const Leaderboard = () => {
             fontSize: "1rem",
           }}
           startIcon={<ArrowBackIosIcon />}
+          onClick={redirigirPaginaAnterior}
+
         >
           Return
         </Button>
