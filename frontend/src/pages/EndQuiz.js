@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect,  } from "react";
 import { Button } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import ScoreContainer from "../components/EndQuiz/ScoreContainer";
@@ -7,11 +7,12 @@ import UserStats from "../components/EndQuiz/UserStats";
 import "../styles/EndQuiz.css";
 
 const EndQuiz = () => {
+  const API = process.env.REACT_APP_API;
   const navigate = useNavigate();
   const location = useLocation();
-  const randomquestions= location.state?.randomquestions;
-  const quizName = location.state?.score;
-  const score = location.state?.score;
+const randomquestions= location.state?.randomquestions;
+const quizName = location.state?.quizName;
+const score = location.state?.score;
   const numQuestions = location?.state?.numQuestions;
   const wrongAnswers = location?.state?.wrongAnswers;
   const correctAnswers = location?.state?.correctAnswers;
@@ -23,14 +24,44 @@ const EndQuiz = () => {
         quizName: quizName,
         randomquestions: randomquestions,
       },
-    });
-  };
+    })};
   const GoLeaderboard = () => {
     navigate("/leaderboard");
   };
   const TakeAnotherQuiz = () => {
     navigate("/");
   };
+
+  useEffect(() => {
+    const postScore = async () => {
+      try {
+        const parsedScore = parseInt(score);
+        if (!isNaN(parsedScore)) {
+          const response = await fetch(
+            `${API}/new_score`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ name: quizName, score: parsedScore }),
+            }
+          );
+          if (response.ok) {
+            // Lógica adicional si es necesario
+          } else {
+            throw new Error("Error en la respuesta de la petición POST");
+          }
+        } else {
+          throw new Error("El valor del score no es un número válido");
+        }
+      } catch (error) {
+        console.error("Error al enviar los datos:", error);
+      }
+    };
+
+    postScore();
+  }, []);
 
   return (
     <div className="end-quiz">
