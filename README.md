@@ -6,6 +6,8 @@ CodeQuizPro is an application of questions that will help you reinforce your kno
 
 ![App Screenshot](https://github.com/AlvaroGarciaa/Quiz-App/blob/main/Assets/Architecture.jpeg)
 
+## Patterns used
+
 As you can see, we used a controller view model type architecture because in this way we had control of each component individually, thus facilitating its understanding and risk mitigation, this was designed in such a way that this application can be scalable.
 While the architectural approach we did with the app was through microservices, as we divided the app into several independent sections such as the frontend, backend and tests.
 
@@ -58,14 +60,14 @@ Start the server
 
 Unit tests were also performed to verify the proper registration of blueprints and the correct functioning of the endpoints (returning 200).
 
-## Patterns used
-
-
-
 ## Tech Stack
 
 **Client:** ReactJS, CSS
 
 **Server:** Python (flask), MongoDB
+
+## Authors
+
+- [Diego Mellado](https://github.com/m3llad0)
 
 
