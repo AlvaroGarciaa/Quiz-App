@@ -15,9 +15,6 @@ As you can see, we used a controller view model type architecture because in thi
 While the architectural approach we did with the app was through microservices, as we divided the app into several independent sections such as the frontend, backend and tests.
 
 ## Start and run the app
-
-- [Url where the app is hosted](aqui poner link)
-
 Clone the project
 
 ```bash
