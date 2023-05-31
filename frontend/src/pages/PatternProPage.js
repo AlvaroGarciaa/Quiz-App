@@ -4,6 +4,7 @@ import {TextField, Button, StyledEngineProvider, Alert } from '@mui/material';
 import '../styles/PatternProPage.css';
 
 function PatternProPage() {
+  const API = process.env.REACT_APP_API;
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [numQuestions, setNumQuestions] = useState('');
