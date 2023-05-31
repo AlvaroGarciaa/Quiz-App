@@ -10,7 +10,7 @@ const EndQuiz = () => {
   const API = process.env.REACT_APP_API;
   const navigate = useNavigate();
   const location = useLocation();
-  const quizName = location.state?.score;
+  const quizName = location.state?.quizName;
   const score = location.state?.score;
   const numQuestions = location?.state?.numQuestions;
   const wrongAnswers = location?.state?.wrongAnswers;
@@ -22,7 +22,6 @@ const EndQuiz = () => {
   });
 
   const RetakeQuiz = () => {
-    console.log("Llegue aqui")
     if (errors.quizName || errors.questions || !numQuestions || !quizName) {
       setErrors({ ...errors, start: true });
     } else {
@@ -66,7 +65,7 @@ const EndQuiz = () => {
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ quizName, score: parsedScore }),
+              body: JSON.stringify({ name: quizName, score: parsedScore }),
             }
           );
           if (response.ok) {
@@ -83,7 +82,7 @@ const EndQuiz = () => {
     };
 
     postScore();
-  }, [quizName, score]);
+  }, []);
 
   return (
     <div className="end-quiz">
