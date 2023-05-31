@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import ScoreContainer from "../components/EndQuiz/ScoreContainer";
@@ -9,45 +9,24 @@ import "../styles/EndQuiz.css";
 const EndQuiz = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const randomquestions= location.state?.randomquestions;
   const quizName = location.state?.score;
   const score = location.state?.score;
   const numQuestions = location?.state?.numQuestions;
   const wrongAnswers = location?.state?.wrongAnswers;
   const correctAnswers = location?.state?.correctAnswers;
-  const [errors, setErrors] = useState({
-    name: false,
-    questions: false,
-    start: false,
-  });
 
   const RetakeQuiz = () => {
-    console.log("Llegue aqui")
-    if (errors.quizName || errors.questions || !numQuestions || !quizName) {
-      setErrors({ ...errors, start: true });
-    } else {
-      let randomquestions = [];
-      fetch(
-        `hola`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          for (let i = 0; i < parseInt(numQuestions) + 1; i++) {
-            const randomIndex = Math.floor(Math.random() * data.length);
-            randomquestions.push(data[randomIndex]);
-          }
-          navigate("/quiz", {
-            state: {
-              numQuestions: numQuestions,
-              quizName: quizName,
-              randomquestions: randomquestions,
-            },
-          });
-        });
-    }
+    navigate("/quiz", {
+      state: {
+        numQuestions: numQuestions,
+        quizName: quizName,
+        randomquestions: randomquestions,
+      },
+    });
   };
-
   const GoLeaderboard = () => {
-    navigate("/");
+    navigate("/leaderboard");
   };
   const TakeAnotherQuiz = () => {
     navigate("/");
