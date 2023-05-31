@@ -20,7 +20,7 @@ git clone https://github.com/AlvaroGarciaa/Quiz-App.git
 Go to the project directory
 
 ```bash
-  cd my-project
+  cd Quiz-App
 ```
 
 Install dependencies
