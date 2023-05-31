@@ -6,7 +6,7 @@ CodeQuizPro is an application of questions that will help you reinforce your kno
 
 ![App Screenshot](https://github.com/AlvaroGarciaa/Quiz-App/blob/main/Assets/Architecture.jpeg)
 
-As you can see, we used a controller view model type architecture because in this way we had control of each component individually, thus facilitating its understanding and risk mitigation, this was designed in such a way that this application can be scalable. 
+As you can see, we used a controller view model type architecture because in this way we had control of each component individually, thus facilitating its understanding and risk mitigation, this was designed in such a way that this application can be scalable.
 
 ## Start and run the app
 
@@ -54,6 +54,8 @@ Start the server
 | :-------- |:----------- |
 |`__init__` |initializes an instance in the class and sets the path to get_questions.|
 |`get_questions()` |Gets all the queries stored in the mongoDB database (quiz_app_db) and brings them to the frontend in JSON format.|
+
+Unit tests were also performed to verify the proper registration of blueprints and the correct functioning of the endpoints (returning 200).
 
 ## Patterns used
 
