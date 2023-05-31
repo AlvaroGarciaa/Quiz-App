@@ -8,7 +8,7 @@ CodeQuizPro is an application of questions that will help you reinforce your kno
 
 As you can see, we used a controller view model type architecture because in this way we had control of each component individually, thus facilitating its understanding and risk mitigation, this was designed in such a way that this application can be scalable. 
 
-## Run Locally
+## Start and run the app
 
 Clone the project
 
