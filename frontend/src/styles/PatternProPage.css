@@ -1,0 +1,56 @@
+.page-container {
+    background: #30313A;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; /* Agregado */  
+  }
+
+  body{
+    margin: 0;
+    padding: 0;
+  }
+  
+  .content-container {
+    height: 500px;
+    width: 850px;
+    background: white;
+    padding: 10px;
+    border-radius: 20px;
+    }
+  
+  .page-title {
+    text-align: center;
+    -webkit-text-size-adjust: 100%;
+    font-feature-settings: normal;
+    font-family: 'Inter';
+    font-size: 5rem;
+    line-height: 2rem;
+    font-weight: 800;
+    margin-bottom: 150px;
+    
+  }
+
+  .button-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+  }
+  
+  .input-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 4rem;
+  }
+
+  .inputs {
+
+    font-family: 'Inter';
+    font-weight: 700 ;
+
+  }
+  

@@ -1,0 +1,17 @@
+.score-display{
+    background: #f8f8ff;
+    border: 15px solid #6137E3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 130px ;
+    height: 130px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.score {
+    font-family: 'Inter';
+    font-weight: 700;
+    font-size: 2rem;
+}
