@@ -1,0 +1,332 @@
+[
+    {
+        "question": "What is the Model-View-Controller (MVC) pattern commonly used for?",
+        "answers": {
+            "a": "Database design",
+            "b": "User interface design",
+            "c": "Network communication",
+            "d": "Algorithm optimization"
+        },
+        "correct_answer": "b",
+        "explanation": "The MVC pattern is commonly used for separating the user interface (view) from the application logic (model) and the data storage (controller)."
+    },
+    {
+        "question": "Which architectural pattern is used for building scalable and fault-tolerant distributed systems?",
+        "answers": {
+            "a": "Observer pattern",
+            "b": "Singleton pattern",
+            "c": "Microservices architecture",
+            "d": "Prototype pattern"
+        },
+        "correct_answer": "c",
+        "explanation": "The microservices architecture is commonly used for building scalable and fault-tolerant distributed systems by breaking down the application into smaller, independently deployable services."
+    },
+    {
+        "question": "Which pattern promotes loose coupling between objects and allows for their interchangeability?",
+        "answers": {
+            "a": "Singleton pattern",
+            "b": "Observer pattern",
+            "c": "Decorator pattern",
+            "d": "Abstract Factory pattern"
+        },
+        "correct_answer": "d",
+        "explanation": "The Abstract Factory pattern promotes loose coupling between objects by providing an interface for creating families of related or dependent objects, allowing for their interchangeability."
+    },
+    {
+        "question": "What is the purpose of the Dependency Injection (DI) pattern?",
+        "answers": {
+            "a": "Managing database connections",
+            "b": "Ensuring code reusability",
+            "c": "Improving software performance",
+            "d": "Inverting control of object creation and dependencies"
+        },
+        "correct_answer": "d",
+        "explanation": "The Dependency Injection pattern is used to invert control of object creation and dependencies, allowing for more flexible and decoupled code."
+    },
+    {
+        "question": "Which architectural pattern focuses on achieving high modularity and reusability through the use of components?",
+        "answers": {
+            "a": "Event-driven architecture",
+            "b": "Layered architecture",
+            "c": "Component-based architecture",
+            "d": "Service-oriented architecture"
+        },
+        "correct_answer": "c",
+        "explanation": "The Component-based architecture focuses on achieving high modularity and reusability by breaking down the application into reusable components."
+    },
+    {
+        "question": "Which design pattern provides a way to encapsulate a group of individual factories that have a common theme?",
+        "answers": {
+            "a": "Singleton pattern",
+            "b": "Abstract Factory pattern",
+            "c": "Builder pattern",
+            "d": "Prototype pattern"
+        },
+        "correct_answer": "b",
+        "explanation": "The Abstract Factory pattern provides a way to encapsulate a group of individual factories that have a common theme, allowing for the creation of families of related objects."
+    },
+    {
+        "question": "Which architectural pattern is characterized by an emphasis on separating concerns into layers?",
+        "answers": {
+            "a": "Event-driven architecture",
+            "b": "Microservices architecture",
+            "c": "Layered architecture",
+            "d": "Service-oriented architecture"
+        },
+        "correct_answer": "c",
+        "explanation": "The Layered architecture is characterized by an emphasis on separating concerns into layers, such as presentation, business logic, and data access."
+    },
+    {
+        "question": "What is the primary purpose of the Observer pattern?",
+        "answers": {
+            "a": "Encapsulating object creation",
+            "b": "Achieving loose coupling between objects",
+            "c": "Providing a way to create families of related objects",
+            "d": "Defining a one-to-many dependency between objects"
+        },
+        "correct_answer": "d",
+        "explanation": "The Observer pattern is primarily used to define a one-to-many dependency between objects, where changes in one object trigger updates in other dependent objects."
+    },
+    {
+        "question": "What is the purpose of the Singleton pattern?",
+        "answers": {
+            "a": "Enforcing immutability of objects",
+            "b": "Restricting object instantiation to a single instance",
+            "c": "Managing dependencies between objects",
+            "d": "Encapsulating complex object creation logic"
+        },
+        "correct_answer": "b",
+        "explanation": "The Singleton pattern is used to restrict the instantiation of a class to a single instance, ensuring that there is only one global access point to that instance."
+    },
+    {
+        "question": "Which pattern is used to decouple the sender and receiver of a request by allowing multiple objects to handle the request?",
+        "answers": {
+            "a": "Proxy pattern",
+            "b": "Chain of Responsibility pattern",
+            "c": "Template Method pattern",
+            "d": "Observer pattern"
+        },
+        "correct_answer": "b",
+        "explanation": "The Chain of Responsibility pattern allows multiple objects to handle a request, decoupling the sender and receiver and giving each object the opportunity to either handle or pass on the request."
+    },
+    {
+        "question": "Which architectural pattern is focused on handling events and asynchronous communication between components?",
+        "answers": {
+            "a": "Service-oriented architecture",
+            "b": "Event-driven architecture",
+            "c": "Layered architecture",
+            "d": "Component-based architecture"
+        },
+        "correct_answer": "b",
+        "explanation": "The Event-driven architecture is focused on handling events and asynchronous communication between components, enabling loosely coupled interactions."
+    },
+    {
+        "question": "What is the primary goal of the Facade pattern?",
+        "answers": {
+            "a": "Providing a way to create families of related objects",
+            "b": "Achieving loose coupling between objects",
+            "c": "Simplifying the interface to a complex system",
+            "d": "Defining a one-to-many dependency between objects"
+        },
+        "correct_answer": "c",
+        "explanation": "The Facade pattern's primary goal is to simplify the interface to a complex system by providing a unified and simplified interface that clients can interact with."
+    },
+    {
+        "question": "Which pattern is used to encapsulate algorithms and make them interchangeable?",
+        "answers": {
+            "a": "Strategy pattern",
+            "b": "Observer pattern",
+            "c": "Decorator pattern",
+            "d": "Composite pattern"
+        },
+        "correct_answer": "a",
+        "explanation": "The Strategy pattern is used to encapsulate algorithms and make them interchangeable, allowing clients to select different algorithms at runtime."
+    },
+    {
+        "question": "Which pattern promotes the creation of objects based on a template or blueprint?",
+        "answers": {
+            "a": "Builder pattern",
+            "b": "Prototype pattern",
+            "c": "Abstract Factory pattern",
+            "d": "Singleton pattern"
+        },
+        "correct_answer": "b",
+        "explanation": "The Prototype pattern promotes the creation of objects based on a template or blueprint object, allowing new objects to be created by cloning existing objects."
+    },
+    {
+        "question": "What is the purpose of the Command pattern?",
+        "answers": {
+            "a": "Managing object creation and initialization",
+            "b": "Controlling access to an object or providing additional functionality",
+            "c": "Defining a one-to-many dependency between objects",
+            "d": "Encapsulating a request as an object, allowing parameterization and queuing of requests"
+        },
+        "correct_answer": "d",
+        "explanation": "The Command pattern is used to encapsulate a request as an object, allowing the parameterization and queuing of requests, as well as the ability to undo or redo operations."
+    },
+    {
+        "question": "Which architectural pattern is used for designing systems with a strong emphasis on reusability and interoperability?",
+        "answers": {
+            "a": "Microservices architecture",
+            "b": "Service-oriented architecture",
+            "c": "Event-driven architecture",
+            "d": "Layered architecture"
+        },
+        "correct_answer": "b",
+        "explanation": "The Service-oriented architecture (SOA) is used for designing systems with a strong emphasis on reusability and interoperability by organizing functionality into services that can be accessed over a network."
+    },
+    {
+        "question": "What is the purpose of the Proxy pattern?",
+        "answers": {
+            "a": "Managing object creation and initialization",
+            "b": "Controlling access to an object or providing additional functionality",
+            "c": "Defining a one-to-many dependency between objects",
+            "d": "Decoupling the sender and receiver of a request"
+        },
+        "correct_answer": "b",
+        "explanation": "The Proxy pattern is used to control access to an object or provide additional functionality, acting as a surrogate or placeholder for the actual object."
+    },
+    {
+        "question": "Which pattern is used to encapsulate an algorithm within a class and allow subclasses to modify certain steps of the algorithm without changing its structure?",
+        "answers": {
+            "a": "Singleton pattern",
+            "b": "Factory Method pattern",
+            "c": "Template Method pattern",
+            "d": "Observer pattern"
+        },
+        "correct_answer": "c",
+        "explanation": "The Template Method pattern is used to encapsulate an algorithm within a class and allow subclasses to modify certain steps of the algorithm without changing its overall structure."
+    },
+    {
+        "question": "Which pattern is commonly used for creating complex objects by separating the construction process from its representation?",
+        "answers": {
+            "a": "Factory Method pattern",
+            "b": "Abstract Factory pattern",
+            "c": "Builder pattern",
+            "d": "Prototype pattern"
+        },
+        "correct_answer": "c",
+        "explanation": "The Builder pattern is commonly used for creating complex objects by separating the construction process from its representation, allowing the same construction process to create different representations."
+    },
+    {
+        "question": "What is the main purpose of the Flyweight pattern?",
+        "answers": {
+            "a": "Managing dependencies between objects",
+            "b": "Defining a one-to-many dependency between objects",
+            "c": "Achieving loose coupling between objects",
+            "d": "Sharing common data between multiple objects to conserve memory"
+        },
+        "correct_answer": "d",
+        "explanation": "The Flyweight pattern's main purpose is to share common data between multiple objects to conserve memory, especially when the objects are similar in nature."
+    },
+    {
+        "question": "Which architectural pattern is based on the concept of self-contained, independent services?",
+        "answers": {
+            "a": "Microservices architecture",
+            "b": "Layered architecture",
+            "c": "Event-driven architecture",
+            "d": "Component-based architecture"
+        },
+        "correct_answer": "a",
+        "explanation": "The Microservices architecture is based on the concept of self-contained, independent services that can be developed, deployed, and scaled independently."
+    },
+    {
+        "question": "What is the primary goal of the Decorator pattern?",
+        "answers": {
+            "a": "Providing a way to create families of related objects",
+            "b": "Achieving loose coupling between objects",
+            "c": "Defining a one-to-many dependency between objects",
+            "d": "Adding behavior or responsibilities to an object dynamically"
+        },
+        "correct_answer": "d",
+        "explanation": "The Decorator pattern's primary goal is to add behavior or responsibilities to an object dynamically, without modifying its structure."
+    },
+    {
+        "question": "Which pattern is used to ensure that a class has only one instance and provides a global point of access to it?",
+        "answers": {
+            "a": "Singleton pattern",
+            "b": "Factory Method pattern",
+            "c": "Abstract Factory pattern",
+            "d": "Prototype pattern"
+        },
+        "correct_answer": "a",
+        "explanation": "The Singleton pattern is used to ensure that a class has only one instance and provides a global point of access to it."
+    },
+    {
+        "question": "What is the purpose of the Template Method pattern?",
+        "answers": {
+            "a": "Encapsulating object creation and initialization",
+            "b": "Providing a way to create families of related objects",
+            "c": "Defining a one-to-many dependency between objects",
+            "d": "Defining the skeleton of an algorithm, allowing subclasses to redefine certain steps"
+        },
+        "correct_answer": "d",
+        "explanation": "The Template Method pattern is used to define the skeleton of an algorithm, allowing subclasses to redefine certain steps while keeping the overall structure intact."
+    },
+    {
+        "question": "Which pattern is used to represent a part-whole hierarchy of objects as a tree structure?",
+        "answers": {
+            "a": "Strategy pattern",
+            "b": "Observer pattern",
+            "c": "Composite pattern",
+            "d": "Proxy pattern"
+        },
+        "correct_answer": "c",
+        "explanation": "The Composite pattern is used to represent a part-whole hierarchy of objects as a tree structure, allowing clients to treat individual objects and compositions uniformly."
+    },
+    {
+        "question": "What is the primary purpose of the Adapter pattern?",
+        "answers": {
+            "a": "Managing object creation and initialization",
+            "b": "Controlling access to an object or providing additional functionality",
+            "c": "Defining a one-to-many dependency between objects",
+            "d": "Allowing incompatible interfaces to work together"
+        },
+        "correct_answer": "d",
+        "explanation": "The Adapter pattern's primary purpose is to allow incompatible interfaces to work together by converting the interface of one class into another interface that clients expect."
+    },
+    {
+        "question": "What is the primary goal of the Mediator pattern?",
+        "answers": {
+            "a": "Managing dependencies between objects",
+            "b": "Achieving loose coupling between objects",
+            "c": "Defining a one-to-many dependency between objects",
+            "d": "Promoting communication and coordination between objects"
+        },
+        "correct_answer": "d",
+        "explanation": "The Mediator pattern's primary goal is to promote communication and coordination between objects by encapsulating their interaction through a central mediator object."
+    },
+    {
+        "question": "Which pattern is used to encapsulate an algorithm within a class and allow subclasses to modify certain steps of the algorithm without changing its structure?",
+        "answers": {
+            "a": "Singleton pattern",
+            "b": "Factory Method pattern",
+            "c": "Template Method pattern",
+            "d": "Observer pattern"
+        },
+        "correct_answer": "c",
+        "explanation": "The Template Method pattern is used to encapsulate an algorithm within a class and allow subclasses to modify certain steps of the algorithm without changing its overall structure."
+    },
+    {
+        "question": "What is the purpose of the Command pattern?",
+        "answers": {
+            "a": "Managing object creation and initialization",
+            "b": "Controlling access to an object or providing additional functionality",
+            "c": "Defining a one-to-many dependency between objects",
+            "d": "Encapsulating a request as an object, allowing parameterization and queuing of requests"
+        },
+        "correct_answer": "d",
+        "explanation": "The Command pattern is used to encapsulate a request as an object, allowing the parameterization and queuing of requests, as well as the ability to undo or redo operations."
+    },
+    {
+        "question": "What is the purpose of the Strategy pattern?",
+        "answers": {
+            "a": "Managing object creation and initialization",
+            "b": "Controlling access to an object or providing additional functionality",
+            "c": "Encapsulating an algorithm and making it interchangeable",
+            "d": "Defining a one-to-many dependency between objects"
+        },
+        "correct_answer": "c",
+        "explanation": "The Strategy pattern is used to encapsulate an algorithm within a class and make it interchangeable, allowing clients to select different algorithms at runtime."
+    }
+]
